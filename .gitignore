@@ -4,8 +4,6 @@ bin
 bin-test
 build_swc.sh
 generate_doc.sh
-nd2d.iml
-.idea
 
 # Flash Builder
 bin-debug
@@ -16,3 +14,7 @@ bin-debug
 html-template
 
 .DS_Store
+
+# Idea
+*.iml
+.idea/*.*

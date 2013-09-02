@@ -76,9 +76,27 @@ package de.nulldesign.nd2d.materials.texture {
 				animationMap[name] = new SpriteSheetAnimation(keyFrames, loop);
 			}
 		}
+		
+		/**
+		    Simple way of add animation by frame name;
+		*/
+		public function addAnimationByName (name:String, frameNamePattern:*, loop:Boolean):void
+        {
+            var keyFramesIndices:Array = [];
+
+            for (var frameName:String in frameNameToIndex)
+            {
+                if (frameName.match(frameNamePattern))
+                {
+                    keyFramesIndices[keyFramesIndices.length] = frameNameToIndex[frameName];
+                }
+            }
+
+            animationMap[name] = new SpriteSheetAnimation(keyFramesIndices, loop);
+        }
 
 		/**
-		 * paeser switch
+		 * parser switch
 		 * @param value
 		 */
 		protected function parse(value:XML, parser:ATextureAtlasParser):void {
