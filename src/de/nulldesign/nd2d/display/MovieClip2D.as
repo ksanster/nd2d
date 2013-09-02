@@ -20,10 +20,11 @@ package de.nulldesign.nd2d.display
     [Event(name="animationFinished", type="de.nulldesign.nd2d.events.SpriteSheetAnimationEvent")]
     public class MovieClip2D extends Sprite2D
     {
+        internal var animationMap:Dictionary = new Dictionary();
+
         protected var animationIndex:uint = 0;
 
         protected var fps:uint;
-        protected var animationMap:Dictionary = new Dictionary();
         protected var activeAnimation:SpriteSheetAnimation;
 
         protected var triggerEventOnLastFrame:Boolean = false;
@@ -35,41 +36,17 @@ package de.nulldesign.nd2d.display
 
         public var spriteSheet:ASpriteSheetBase;
 
-
-        public override function set parent (value:Node2D):void
+        protected override function set batchRoot (value:ContainerNode2D):void
         {
-            _parent = value;
-
-            // if we are in a batch. get the spritesheet / texture from our batch and pass it to our children
-            // TODO: this needs to be optimized. Better and easier batch, texture, spritesheet reference handling!!!
-            if(_parent && isBatchNode) {
-
-                var batchTexture:Texture2D;
-                var batchSpriteSheet:ASpriteSheetBase;
-                var currentNode:Node2D = _parent;
-                var currentNodeAsSprite:Sprite2DBatch = _parent as Sprite2DBatch;
-
-                while(currentNode && !batchTexture) {
-
-                    if(currentNodeAsSprite) {
-                        batchTexture = currentNodeAsSprite.texture;
-                        batchSpriteSheet = currentNodeAsSprite.spriteSheet;
-                    }
-
-                    currentNode = currentNode.parent;
-                    currentNodeAsSprite = currentNode as Sprite2DBatch;
+            super.batchRoot = value;
+            if (spriteSheet == null && value != null && value.spriteSheet != null)
+            {
+                setSpriteSheet(value.spriteSheet.clone());
+                for (var name:String in animationMap)
+                {
+                    animationMap[name] = value.animationMap[name];
                 }
-
-                if(batchSpriteSheet && !spriteSheet) {
-                    setSpriteSheet(batchSpriteSheet.clone());
-                }
-
-                if(batchTexture && !texture) {
-                    setTexture(batchTexture);
-                }
-
             }
-
         }
 
         public function MovieClip2D (textureObject:Texture2D = null, spriteSheet:ASpriteSheetBase = null, fps:uint = 0)
@@ -186,9 +163,12 @@ package de.nulldesign.nd2d.display
             blendMode = texture.hasPremultipliedAlpha ? BlendModePresets.NORMAL_PREMULTIPLIED_ALPHA : BlendModePresets.NORMAL_NO_PREMULTIPLIED_ALPHA;
         }
 
-        public function addAnimation (name:String, keyFrames:Vector.<uint>, loop:Boolean):void
+        public function addAnimation (name:String, keyFrames:Vector.<uint>, loop:Boolean):SpriteSheetAnimation
         {
-            animationMap[name] = new SpriteSheetAnimation(keyFrames, loop);
+            const animation:SpriteSheetAnimation = new SpriteSheetAnimation(keyFrames, loop);
+            animationMap[name] = animation;
+
+            return animation;
         }
 
         public function addAnimationByName (name:String, frameNamePattern:*, loop:Boolean):SpriteSheetAnimation

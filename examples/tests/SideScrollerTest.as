@@ -30,7 +30,8 @@
 
 package tests {
 
-	import de.nulldesign.nd2d.display.ParticleSystem2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.ParticleSystem2D;
 	import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.display.Sprite2DCloud;
@@ -165,7 +166,7 @@ package tests {
 
             // TODO add reverse loop option to spritesheet
             var sheet:SpriteSheet = new SpriteSheet(plantTex.bitmapWidth, plantTex.bitmapHeight, 200, 147, 20);
-            var ar:Array = [];
+            var ar:Vector.<uint> = new <uint>[];
             for(i = 2; i < 35; ++i) {
                 ar.push(i);
             }
@@ -174,29 +175,29 @@ package tests {
                 ar.push(i);
             }
 
-            sheet.addAnimation("wave", ar, true);
 
             cloud = new Sprite2DCloud(100, plantTex);
             cloud.setSpriteSheet(sheet);
+            cloud.addAnimation("wave", ar, true);
 
             grassSprites[0].addChild(cloud);
 
-            var plant:Sprite2D = new Sprite2D();
+            var plant:MovieClip2D = new MovieClip2D();
             plant.scaleX = plant.scaleY = 3.0;
             plant.y = -220;
 
             cloud.addChild(plant);
 
-            plant = new Sprite2D();
+            plant = new MovieClip2D();
             plant.scaleX = plant.scaleY = 4.0;
             plant.x = 100;
             plant.y = -220;
 
             cloud.addChild(plant);
 
-            plant.spriteSheet.playAnimation("wave", 30, true);
+            plant.playAnimation("wave", 30, true);
 
-            plant = new Sprite2D();
+            plant = new MovieClip2D();
             plant.scaleX = -2.0;
             plant.scaleY = 2.0;
             plant.x = 450;
@@ -204,9 +205,9 @@ package tests {
 
             cloud.addChild(plant);
 
-            plant.spriteSheet.playAnimation("wave", 15, true);
+            plant.playAnimation("wave", 15, true);
 
-            plant = new Sprite2D();
+            plant = new MovieClip2D();
             plant.scaleX = 1.0;
             plant.scaleY = 1.0;
             plant.x = 620;
@@ -214,7 +215,7 @@ package tests {
 
             cloud.addChild(plant);
 
-            plant.spriteSheet.playAnimation("wave", 10, true);
+            plant.playAnimation("wave", 10, true);
 
             // ceiling
             var ceilingTex:Texture2D = Texture2D.textureFromBitmapData(new ceilingTexture().bitmapData);

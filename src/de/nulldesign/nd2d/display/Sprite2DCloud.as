@@ -30,27 +30,26 @@
 
 package de.nulldesign.nd2d.display {
 
-	import flash.display3D.Context3D;
-	import flash.display3D.Context3DProgramType;
-	import flash.display3D.Context3DVertexBufferFormat;
-	import flash.display3D.IndexBuffer3D;
-	import flash.display3D.VertexBuffer3D;
-	import flash.geom.Matrix3D;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	
-	import de.nulldesign.nd2d.geom.Face;
-	import de.nulldesign.nd2d.geom.UV;
-	import de.nulldesign.nd2d.geom.Vertex;
-	import de.nulldesign.nd2d.materials.shader.Shader2D;
-	import de.nulldesign.nd2d.materials.shader.ShaderCache;
-	import de.nulldesign.nd2d.materials.texture.ASpriteSheetBase;
-	import de.nulldesign.nd2d.materials.texture.Texture2D;
-	import de.nulldesign.nd2d.utils.StatsObject;
-	import de.nulldesign.nd2d.utils.TextureHelper;
-	import de.nulldesign.nd2d.utils.VectorUtil;
+    import de.nulldesign.nd2d.geom.Face;
+    import de.nulldesign.nd2d.geom.UV;
+    import de.nulldesign.nd2d.geom.Vertex;
+    import de.nulldesign.nd2d.materials.shader.Shader2D;
+    import de.nulldesign.nd2d.materials.shader.ShaderCache;
+    import de.nulldesign.nd2d.materials.texture.Texture2D;
+    import de.nulldesign.nd2d.utils.StatsObject;
+    import de.nulldesign.nd2d.utils.TextureHelper;
+    import de.nulldesign.nd2d.utils.VectorUtil;
 
-	/**
+    import flash.display3D.Context3D;
+    import flash.display3D.Context3DProgramType;
+    import flash.display3D.Context3DVertexBufferFormat;
+    import flash.display3D.IndexBuffer3D;
+    import flash.display3D.VertexBuffer3D;
+    import flash.geom.Matrix3D;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+
+    /**
 	 * Sprite2DCloud
 	 * <p>Use a sprite cloud to batch sprites with the same Texture, SpriteSheet or TextureAtlas. The SpriteSheet or TextureAtlas is cloned and passed to each child.
 	 * So you can control each child individually.
@@ -66,11 +65,10 @@ package de.nulldesign.nd2d.display {
 	 *
 	 * <p>If you have a SpriteSheet or TextureAtlas for your batch, make sure to add animations BEFORE you add any childs to the batch, because the SpriteSheet/TextureAtlas get's cloned and is copied to each added child</p>
 	 */
-	public class Sprite2DCloud extends Node2D {
+	public class Sprite2DCloud extends ContainerNode2D
+    {
 
 		protected var faceList:Vector.<Face>;
-		protected var spriteSheet:ASpriteSheetBase;
-		protected var texture:Texture2D;
 
 		protected var v1:Vertex;
 		protected var v2:Vertex;
@@ -110,7 +108,7 @@ package de.nulldesign.nd2d.display {
 
 		public function Sprite2DCloud(maxCapacity:uint, textureObject:Texture2D) {
 
-			texture = textureObject;
+			super(textureObject);
 			faceList = TextureHelper.generateQuadFromDimensions(2, 2);
 
 			v1 = faceList[0].v1;
@@ -127,10 +125,6 @@ package de.nulldesign.nd2d.display {
 
 			mVertexBuffer = new Vector.<Number>(maxCapacity * numFloatsPerVertex * 4, true);
 			mIndexBuffer = new Vector.<uint>(maxCapacity * 6, true);
-		}
-
-		public function setSpriteSheet(value:ASpriteSheetBase):void {
-			this.spriteSheet = value;
 		}
 
 		override public function get numTris():uint {
@@ -151,22 +145,26 @@ package de.nulldesign.nd2d.display {
 
 				super.addChildAt(child, idx);
 
+                var node:Node2D;
 				var c:Sprite2D = child as Sprite2D;
                 var m:MovieClip2D = child as MovieClip2D;
 
 				// distribute spritesheets to sprites
 				if(spriteSheet != null && m != null && m.spriteSheet == null) {
 					m.setSpriteSheet(spriteSheet.clone());
-				}
+                    for (var name:String in animationMap)
+                    {
+                        m.animationMap[name] = animationMap[name];
+                    }
+                }
 
-				if(texture != null && c.texture == null) {
+				if(texture != null && c != null && c.texture == null) {
 					c.setTexture(texture);
 				}
 
-				for(var i:int = 0; i < children.length; i++) {
-					c = children[i] as Sprite2D;
-					c.invalidateColors = true;
-					c.invalidateMatrix = true;
+				for each(node in children) {
+                    node.invalidateColors = true;
+                    node.invalidateMatrix = true;
 				}
 				uvInited = false;
 

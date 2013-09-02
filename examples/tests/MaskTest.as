@@ -30,7 +30,8 @@
 
 package tests {
 
-	import de.nulldesign.nd2d.display.Scene2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.materials.texture.SpriteSheet;
 	import de.nulldesign.nd2d.materials.texture.Texture2D;
@@ -54,8 +55,8 @@ package tests {
 		[Embed(source="/assets/circle_mask.png")]
 		private var maskImage:Class;
 
-		private var sprite:Sprite2D;
-		private var sprite2:Sprite2D;
+		private var sprite:MovieClip2D;
+		private var sprite2:MovieClip2D;
 		private var mask:Sprite2D;
 
 		public function MaskTest() {
@@ -64,25 +65,25 @@ package tests {
 			var texAtlasTex:Texture2D = Texture2D.textureFromBitmapData(new textureAtlasBitmap().bitmapData);
 
 			var atlas:TextureAtlas = new TextureAtlas(texAtlasTex.bitmapWidth, texAtlasTex.bitmapHeight,
-					new XML(new textureAtlasXML()), new TexturePackerParser(), 20);
+					new XML(new textureAtlasXML()), new TexturePackerParser());
 
-			atlas.addAnimation("blah", ["c01", "c02", "c03", "c04", "c05", "c06", "c07", "c08", "c09", "c10", "c11", "c12", "b01", "b02", "b03", "b04", "b05", "b06", "b07", "b08", "b09", "b10", "b11", "b12"], true);
-			atlas.playAnimation("blah");
 
 			var spriteSheetTex:Texture2D = Texture2D.textureFromBitmapData(new spriteTexture().bitmapData);
-			var sheet:SpriteSheet = new SpriteSheet(spriteSheetTex.bitmapWidth, spriteSheetTex.bitmapHeight, 24, 32, 5);
-			sheet.addAnimation("blah", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
-			sheet.playAnimation("blah", 0, true);
+			var sheet:SpriteSheet = new SpriteSheet(spriteSheetTex.bitmapWidth, spriteSheetTex.bitmapHeight, 24, 32);
 
 			var tex:Texture2D = Texture2D.textureFromBitmapData(new spriteImage().bitmapData);
 
 			// set up test sprite and mask
 
-			sprite = new Sprite2D(tex);
+			sprite = new MovieClip2D(tex, atlas, 20);
+            sprite.addAnimationByName("blah", /^[c|b]\d+/, true);
+            sprite.playAnimation("blah");
 			//sprite.setSpriteSheet(atlas);
 			addChild(sprite);
 
-			sprite2 = new Sprite2D(tex);
+			sprite2 = new MovieClip2D(tex, sheet, 5);
+            sprite2.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            sprite2.playAnimation("blah", 0, true);
 			//sprite2.setSpriteSheet(atlas);
 			addChild(sprite2);
 

@@ -30,7 +30,8 @@
 
 package tests {
 
-	import de.nulldesign.nd2d.display.Node2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Node2D;
 	import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.materials.BlendModePresets;
@@ -51,7 +52,7 @@ package tests {
 
 		private var s:Sprite2D;
 		private var s2:Sprite2D;
-		private var s3:Sprite2D;
+		private var s3:MovieClip2D;
 
 		private var s4:Sprite2D;
 		private var s5:Sprite2D;
@@ -79,12 +80,13 @@ package tests {
 
 			var tex2:Texture2D = Texture2D.textureFromBitmapData(new spriteTexture2().bitmapData);
 
-			var sheet:SpriteSheet = new SpriteSheet(tex2.bitmapWidth, tex2.bitmapHeight, 24, 32, 5);
-			sheet.addAnimation("up", [6, 7, 8], true);
-			sheet.playAnimation("up", 0, true);
+			var sheet:SpriteSheet = new SpriteSheet(tex2.bitmapWidth, tex2.bitmapHeight, 24, 32);
 
-			s3 = new Sprite2D(tex2);
+			s3 = new MovieClip2D(tex2, null, 5);
 			s3.setSpriteSheet(sheet);
+            s3.addAnimation("up", new <uint>[6, 7, 8], true);
+            s3.playAnimation("up", 0, true);
+
 			s3.mouseEnabled = true;
 			s3.usePixelPerfectHitTest = true;
 			s3.addEventListener(MouseEvent.MOUSE_OVER, mouseOver);

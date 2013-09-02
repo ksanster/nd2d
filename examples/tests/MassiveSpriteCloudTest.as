@@ -30,25 +30,25 @@
 
 package tests {
 
-	import com.bit101.components.PushButton;
+    import com.bit101.components.PushButton;
 
-	import de.nulldesign.nd2d.display.Scene2D;
-	import de.nulldesign.nd2d.display.Sprite2D;
-	import de.nulldesign.nd2d.display.Sprite2DBatch;
-	import de.nulldesign.nd2d.display.Sprite2DCloud;
-	import de.nulldesign.nd2d.materials.texture.SpriteSheet;
-	import de.nulldesign.nd2d.materials.texture.Texture2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Scene2D;
+    import de.nulldesign.nd2d.display.Sprite2D;
+    import de.nulldesign.nd2d.display.Sprite2DCloud;
+    import de.nulldesign.nd2d.materials.texture.SpriteSheet;
+    import de.nulldesign.nd2d.materials.texture.Texture2D;
 
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Point;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.geom.Point;
 
-	public class MassiveSpriteCloudTest extends Scene2D {
+    public class MassiveSpriteCloudTest extends Scene2D {
 
         [Embed(source="/assets/spritechar2.png")]
         private var cubeTexture:Class;
 
-        private var sprites:Vector.<Sprite2D>;
+        private var sprites:Vector.<MovieClip2D>;
         private var spriteCloud:Sprite2DCloud;
 
         private var numSprites:uint = 1600;
@@ -59,19 +59,20 @@ package tests {
 
             backgroundColor = 0x666666;
 
-            sprites = new Vector.<Sprite2D>();
+            sprites = new Vector.<MovieClip2D>();
             var tex:Texture2D = Texture2D.textureFromBitmapData(new cubeTexture().bitmapData);
             var s:Sprite2D;
 
             var sheet:SpriteSheet = new SpriteSheet(tex.bitmapWidth, tex.bitmapHeight, 24, 32, 10);
-            sheet.addAnimation("up", [0, 1, 2], true);
-            sheet.addAnimation("right", [3, 4, 5], true);
-            sheet.addAnimation("down", [6, 7, 8], true);
-            sheet.addAnimation("left", [9, 10, 11], true);
 
             spriteCloud = new Sprite2DCloud(numSprites, tex);
             //spriteCloud = new Sprite2DBatch(tex);
             spriteCloud.setSpriteSheet(sheet);
+
+            spriteCloud.addAnimation("up", new <uint>[0, 1, 2], true);
+            spriteCloud.addAnimation("right", new <uint>[3, 4, 5], true);
+            spriteCloud.addAnimation("down", new <uint>[6, 7, 8], true);
+            spriteCloud.addAnimation("left", new <uint>[9, 10, 11], true);
 
             addSpritesClick();
 
@@ -83,10 +84,10 @@ package tests {
 
         private function addSpritesClick(event:MouseEvent = null):void {
 
-            var s:Sprite2D;
+            var s:MovieClip2D;
             for(var i:int = 0; i < 100; i++) {
 
-                s = new Sprite2D();
+                s = new MovieClip2D();
                 s.x = Math.round(Math.random() * 1000);
                 s.y = Math.round(Math.random() * 1000);
                 s.vx = (Math.random() - Math.random()) * 3;
@@ -124,7 +125,7 @@ package tests {
 
         override protected function step(elapsed:Number):void {
 
-            var s:Sprite2D;
+            var s:MovieClip2D;
             var len:int = sprites.length;
             var i:int = len;
             var vxabs:Number;
@@ -161,13 +162,13 @@ package tests {
                 vyabs = Math.abs(s.vy);
 
                 if(s.vx > 0 && vxabs > vyabs) { // right
-                    s.spriteSheet.playAnimation("right");
+                    s.playAnimation("right");
                 } else if(s.vx < 0 && vxabs > vyabs) { // left
-                    s.spriteSheet.playAnimation("left");
+                    s.playAnimation("left");
                 } else if(s.vy > 0 && vyabs > vxabs) { // down
-                    s.spriteSheet.playAnimation("down");
+                    s.playAnimation("down");
                 } else if(s.vy < 0 && vyabs > vxabs) { // up
-                    s.spriteSheet.playAnimation("up");
+                    s.playAnimation("up");
                 }
 
                 s.rotation += 5.0;

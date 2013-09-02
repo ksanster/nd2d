@@ -187,6 +187,7 @@ package de.nulldesign.nd2d.display {
 
 		protected var camera:Camera2D;
 
+        private var batchNodeRoot:ContainerNode2D;
 		private var localMouse:Vector3D;
 		private var localMouseMatrix:Matrix3D = new Matrix3D();
 
@@ -218,6 +219,21 @@ package de.nulldesign.nd2d.display {
             halfHeight = value >> 1;
         }
 
+        protected function set batchRoot (value:ContainerNode2D):void
+        {
+            batchNodeRoot = value;
+            for each (var node:Node2D in children)
+            {
+                node.batchRoot = value;
+            }
+
+        }
+
+        protected function get batchRoot ():ContainerNode2D
+        {
+           return batchNodeRoot;
+        }
+
 
         public function get stage():Stage {
 			return _stage;
@@ -234,7 +250,11 @@ package de.nulldesign.nd2d.display {
 
 		public function set parent(value:Node2D):void {
 			_parent = value;
-		}
+            if (value != null && value.isBatchNode)
+            {
+                batchRoot = value.batchRoot;
+            }
+        }
 
 		/**
 		 * @private

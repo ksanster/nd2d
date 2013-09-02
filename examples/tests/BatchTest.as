@@ -30,7 +30,8 @@
 
 package tests {
 
-	import de.nulldesign.nd2d.display.Node2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Node2D;
 	import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.display.Sprite2DBatch;
@@ -58,26 +59,24 @@ package tests {
 			var tex2:Texture2D = Texture2D.textureFromBitmapData(new spriteTexture2().bitmapData);
 
 			var sheet:SpriteSheet = new SpriteSheet(tex2.bitmapWidth, tex2.bitmapHeight, 24, 32, 5);
-			sheet.addAnimation("up", [6, 7, 8], true);
-			sheet.playAnimation("up", 0, true);
 
 			batch = new Sprite2DBatch(tex);
 			addChild(batch);
 
-			var s:Sprite2D = new Sprite2D();
+			var s:MovieClip2D = new MovieClip2D();
 			s.x = s.y = 200.0;
 			batch.addChild(s);
 
-			s = new Sprite2D();
+			s = new MovieClip2D();
 			s.x = s.y = 400.0;
 			s.alpha = 0.9;
 			batch.addChild(s);
 
 			var prevChild:Sprite2D = s;
-			var s2:Sprite2D;
+			var s2:MovieClip2D;
 
 			for(var i:int = 0; i < 5; i++) {
-				s2 = new Sprite2D();
+				s2 = new MovieClip2D();
 				s2.x = s2.y = 128.0;
 				s2.scaleX = s2.scaleY = 0.8;
 				s2.alpha = 0.9;
@@ -90,30 +89,32 @@ package tests {
 			// batch with node2d test
 			batch2 = new Sprite2DBatch(tex2);
 			batch2.setSpriteSheet(sheet);
-			addChild(batch2);
+            batch2.addAnimation("up", new <uint>[6, 7, 8], true);
+
+            addChild(batch2);
 
 			batchNode = new Node2D();
 			batchNode.x = 800.0;
 			batchNode.y = 300.0;
 			batch2.addChild(batchNode);
 
-			s = new Sprite2D();
+			s = new MovieClip2D();
 			s.x = 700.0;
 			s.y = 300.0;
 			batch2.addChild(s);
-			s.spriteSheet.playAnimation("up");
+			s.playAnimation("up");
 
-			s = new Sprite2D();
+			s = new MovieClip2D();
 			s.x = 100.0;
 			s.scaleX = s.scaleY = 0.5;
 			batchNode.addChild(s);
-			s.spriteSheet.playAnimation("up");
+			s.playAnimation("up");
 
-			s2 = new Sprite2D();
+			s2 = new MovieClip2D();
 			s2.x = 50.0;
 			s2.scaleX = s2.scaleY = 3.0;
 			s.addChild(s2);
-			s2.spriteSheet.playAnimation("up");
+			s2.playAnimation("up");
 		}
 
 		override protected function step(elapsed:Number):void {

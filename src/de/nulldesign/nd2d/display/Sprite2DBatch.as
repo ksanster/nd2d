@@ -30,17 +30,15 @@
 
 package de.nulldesign.nd2d.display {
 
-	import de.nulldesign.nd2d.geom.Face;
-	import de.nulldesign.nd2d.materials.texture.ASpriteSheetBase;
-	import de.nulldesign.nd2d.materials.Sprite2DBatchMaterial;
-	import de.nulldesign.nd2d.materials.texture.Texture2D;
-	import de.nulldesign.nd2d.utils.StatsObject;
-	import de.nulldesign.nd2d.utils.TextureHelper;
+    import de.nulldesign.nd2d.geom.Face;
+    import de.nulldesign.nd2d.materials.Sprite2DBatchMaterial;
+    import de.nulldesign.nd2d.materials.texture.Texture2D;
+    import de.nulldesign.nd2d.utils.StatsObject;
+    import de.nulldesign.nd2d.utils.TextureHelper;
 
-	import flash.display.BitmapData;
-	import flash.display3D.Context3D;
+    import flash.display3D.Context3D;
 
-	/**
+    /**
 	 * Sprite2DBatch
 	 * <p>Use a sprite cloud to batch sprites with the same Texture, SpriteSheet or TextureAtlas. The SpriteSheet or TextureAtlas is cloned and passed to each child. So you can control each child individually.</p>
 	 *
@@ -51,19 +49,18 @@ package de.nulldesign.nd2d.display {
 	 *
 	 * <p>If you have a SpriteSheet or TextureAtlas for your batch, make sure to add animations BEFORE you add any childs to the batch, because the SpriteSheet/TextureAtlas get's cloned and is copied to each added child</p>
 	 */
-	public class Sprite2DBatch extends Node2D {
-
-		public var texture:Texture2D;
-		public var spriteSheet:ASpriteSheetBase;
+	public class Sprite2DBatch extends ContainerNode2D
+    {
 
 		private var material:Sprite2DBatchMaterial;
 		private var faceList:Vector.<Face>;
 
 		public function Sprite2DBatch(textureObject:Texture2D) {
+            super(textureObject);
 			material = new Sprite2DBatchMaterial();
 			faceList = TextureHelper.generateQuadFromDimensions(2, 2);
-			texture = textureObject;
 			isBatchNode = true;
+            batchRoot = this;
 		}
 
 		override public function get numTris():uint {
@@ -74,26 +71,10 @@ package de.nulldesign.nd2d.display {
 			return material.drawCalls;
 		}
 
-		public function setSpriteSheet(value:ASpriteSheetBase):void {
-			this.spriteSheet = value;
-		}
-
-		override public function addChildAt(child:Node2D, idx:uint):Node2D {
+        override public function addChildAt(child:Node2D, idx:uint):Node2D {
 
 			if(child is Sprite2DBatch) {
 				throw new Error("You can't nest Sprite2DBatches");
-			}
-
-			var c:Sprite2D = child as Sprite2D;
-            var m:MovieClip2D = child as MovieClip2D;
-
-			// distribute spritesheets to sprites
-			if(m != null && spriteSheet && !m.spriteSheet) {
-				m.setSpriteSheet(spriteSheet.clone());
-			}
-
-			if(c && texture && !c.texture) {
-				c.setTexture(texture);
 			}
 
 			return super.addChildAt(child, idx);

@@ -48,7 +48,28 @@ package
 
     import net.hires.debug.Stats;
 
+    import tests.BatchTest;
+
+    import tests.CameraTest;
+
+    import tests.Grid2DTest;
+    import tests.MaskTest;
+
+    import tests.MassiveSpriteCloudTest;
+
+    import tests.MassiveSpritesTest;
+    import tests.ParticleExplorer;
+    import tests.ParticleSystemTest;
+
+    import tests.SideScrollerTest;
+    import tests.SpriteAnimTest;
+    import tests.SpriteHierarchyTest;
+    import tests.SpriteHierarchyTest2;
+    import tests.SpriteTest;
+    import tests.StarFieldTest;
+
     import tests.TextureAtlasTest;
+    import tests.TextureRendererTest;
 
     [SWF(width = "1000", height = "550", frameRate = "60", backgroundColor = "#000000")]
 	public class Main extends World2D
@@ -87,9 +108,9 @@ package
 //			scenes.push(CameraTest);
 //			scenes.push(ParticleExplorer);
 //			scenes.push(MaskTest);
-			scenes.push(TextureAtlasTest);
-//			scenes.push(BatchTest);
-//			scenes.push(TextureRendererTest);
+//			scenes.push(TextureAtlasTest);
+			scenes.push(BatchTest);
+			scenes.push(TextureRendererTest);
 //			scenes.push(PostProcessingTest);
 //			scenes.push(ColorTransformTest);
 //			scenes.push(Sprite2DCloudParticles);

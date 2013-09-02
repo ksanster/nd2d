@@ -58,6 +58,16 @@ package de.nulldesign.nd2d.display {
 
 		public var usePixelPerfectHitTest:Boolean = false;
 
+
+        protected override function set batchRoot (value:ContainerNode2D):void
+        {
+            super.batchRoot = value;
+            if (texture == null && value != null && value.texture != null)
+            {
+                setTexture(value.texture);
+            }
+        }
+
 		/**
 		 * Constructor of class Sprite2D
 		 * @param textureObject Texture2D
@@ -133,35 +143,6 @@ package de.nulldesign.nd2d.display {
 
 			if(texture)
 				texture.texture = null;
-		}
-
-		override public function set parent(value:Node2D):void {
-			_parent = value;
-
-			// if we are in a batch. get the spritesheet / texture from our batch and pass it to our children
-			// TODO: this needs to be optimized. Better and easier batch, texture, spritesheet reference handling!!!
-			if(_parent && isBatchNode) {
-
-				var batchTexture:Texture2D;
-				var batchSpriteSheet:ASpriteSheetBase;
-				var currentNode:Node2D = _parent;
-				var currentNodeAsSprite:Sprite2DBatch = _parent as Sprite2DBatch;
-
-				while(currentNode && !batchTexture) {
-
-					if(currentNodeAsSprite) {
-						batchTexture = currentNodeAsSprite.texture;
-						batchSpriteSheet = currentNodeAsSprite.spriteSheet;
-					}
-
-					currentNode = currentNode.parent;
-					currentNodeAsSprite = currentNode as Sprite2DBatch;
-				}
-
-				if(batchTexture && !texture) {
-					setTexture(batchTexture);
-				}
-			}
 		}
 
 		override protected function draw(context:Context3D, camera:Camera2D):void {

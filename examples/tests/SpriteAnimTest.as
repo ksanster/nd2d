@@ -30,7 +30,8 @@
 
 package tests {
 
-	import de.nulldesign.nd2d.display.Scene2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.events.SpriteSheetAnimationEvent;
 	import de.nulldesign.nd2d.materials.texture.SpriteSheet;
@@ -41,7 +42,7 @@ package tests {
         [Embed(source="/assets/spritechar1.png")]
         private var spriteTexture:Class;
 
-        private var s:Sprite2D;
+        private var s:MovieClip2D;
 
         public function SpriteAnimTest() {
 
@@ -49,15 +50,16 @@ package tests {
 			//var tex:Texture2D = Texture2D.textureFromATF(new spriteTexture());
 
             var sheet:SpriteSheet = new SpriteSheet(tex.bitmapWidth, tex.bitmapHeight, 24, 32, 5);
-            sheet.addAnimation("up", [0, 1, 2], true);
-            sheet.addAnimation("right", [3, 4, 5], true);
-            sheet.addAnimation("down", [6, 7, 8], true);
-            sheet.addAnimation("left", [9, 10, 11], true);
-            sheet.playAnimation("up", 0, true, true);
 
-            s = new Sprite2D(tex);
-            s.setSpriteSheet(sheet);
-			s.spriteSheet.addEventListener(SpriteSheetAnimationEvent.ANIMATION_FINISHED, function():void { trace("anim finished"); });
+            s = new MovieClip2D(tex, sheet,  5);
+            s.addAnimation("up", new <uint>[0, 1, 2], true);
+            s.addAnimation("right", new <uint>[3, 4, 5], true);
+            s.addAnimation("down", new <uint>[6, 7, 8], true);
+            s.addAnimation("left", new <uint>[9, 10, 11], true);
+
+            s.playAnimation("up", 0, true, true);
+
+            s.spriteSheet.addEventListener(SpriteSheetAnimationEvent.ANIMATION_FINISHED, function():void { trace("anim finished"); });
             addChild(s);
         }
 

@@ -88,6 +88,7 @@ package tests {
             //s2 = new Sprite2DBatch(sheet);
             s2 = new Sprite2DBatch(atlasTex);
             s2.setSpriteSheet(atlas);
+            s2.addAnimationByName("blah", /^[c|b]\d+/, true);
 
             //s2 = new Sprite2DCloud(100, tex);
             //s2 = new Sprite2DCloud(100, sheet);
