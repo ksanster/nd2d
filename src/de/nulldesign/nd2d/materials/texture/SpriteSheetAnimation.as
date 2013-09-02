@@ -33,10 +33,10 @@ package de.nulldesign.nd2d.materials.texture {
     public class SpriteSheetAnimation {
 
         public var loop:Boolean;
-        public var frames:Array;
+        public var frames:Vector.<uint>;
         public var numFrames:uint;
 
-        public function SpriteSheetAnimation(frames:Array, loop:Boolean) {
+        public function SpriteSheetAnimation(frames:Vector.<uint>, loop:Boolean) {
             this.loop = loop;
             this.frames = frames;
             this.numFrames = frames.length;

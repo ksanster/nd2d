@@ -30,26 +30,25 @@
 
 package de.nulldesign.nd2d.display {
 
-	import de.nulldesign.nd2d.materials.shader.ShaderCache;
-	import de.nulldesign.nd2d.utils.StatsObject;
+    import de.nulldesign.nd2d.materials.shader.ShaderCache;
+    import de.nulldesign.nd2d.utils.StatsObject;
 
-	import flash.display.Sprite;
-	import flash.display3D.Context3D;
-	import flash.display3D.Context3DCompareMode;
-	import flash.display3D.Context3DProfile;
-	import flash.display3D.Context3DRenderMode;
-	import flash.display3D.Context3DTriangleFace;
-	import flash.events.ErrorEvent;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.events.TouchEvent;
-	import flash.geom.Rectangle;
-	import flash.geom.Vector3D;
-	import flash.ui.Multitouch;
-	import flash.ui.MultitouchInputMode;
-	import flash.utils.getTimer;
+    import flash.display.Sprite;
+    import flash.display3D.Context3D;
+    import flash.display3D.Context3DCompareMode;
+    import flash.display3D.Context3DRenderMode;
+    import flash.display3D.Context3DTriangleFace;
+    import flash.events.ErrorEvent;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.events.TouchEvent;
+    import flash.geom.Rectangle;
+    import flash.geom.Vector3D;
+    import flash.ui.Multitouch;
+    import flash.ui.MultitouchInputMode;
+    import flash.utils.getTimer;
 
-	/**
+    /**
 	 * Dispatched when the World2D is initialized and the context3D is available. The flag 'isHardwareAccelerated' is available then
 	 * @eventType flash.events.Event.INIT
 	 */

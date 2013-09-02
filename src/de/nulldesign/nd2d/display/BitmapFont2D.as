@@ -78,7 +78,7 @@ package de.nulldesign.nd2d.display {
 			this.charSpacing = charSpacing;
 
 			super(maxTextLen, fontTexture);
-			setSpriteSheet(new SpriteSheet(fontTexture.bitmapWidth, fontTexture.bitmapHeight, charWidth, charHeight, 1, spritesPackedWithoutSpaces));
+			setSpriteSheet(new SpriteSheet(fontTexture.bitmapWidth, fontTexture.bitmapHeight, charWidth, charHeight, spritesPackedWithoutSpaces));
 		}
 
 		override protected function step(elapsed:Number):void {
@@ -91,14 +91,14 @@ package de.nulldesign.nd2d.display {
 				const childsNeeded:uint = text_length - numSpaces;
 
 				while(numChildren < maxCapacity && numChildren < childsNeeded) {
-					addChild(new Sprite2D());
+					addChild(new MovieClip2D());
 				}
 
 				while(numChildren > childsNeeded) {
 					removeChildAt(0);
 				}
 
-				var s:Sprite2D;
+				var s:MovieClip2D;
 				var curChar:String;
 				var frame:int;
 				var childIdx:uint = 0;
@@ -120,7 +120,7 @@ package de.nulldesign.nd2d.display {
 					curChar = text.charAt(i);
 					frame = Math.max(0, charString.indexOf(curChar));
 
-					s = Sprite2D(children[childIdx]);
+					s = MovieClip2D(children[childIdx]);
 					s.spriteSheet.frame = frame;
 
 					s.x = startX + charSpacing * i;
@@ -131,8 +131,8 @@ package de.nulldesign.nd2d.display {
 					}
 				}
 
-				_width = s.x + spriteSheet.spriteWidth;
-				_height = spriteSheet.spriteHeight;
+				unscaledWidth = s.x + spriteSheet.spriteWidth;
+				unscaledHeight = spriteSheet.spriteHeight;
 			}
 		}
 	}

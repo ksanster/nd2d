@@ -152,13 +152,14 @@ package de.nulldesign.nd2d.display {
 				super.addChildAt(child, idx);
 
 				var c:Sprite2D = child as Sprite2D;
+                var m:MovieClip2D = child as MovieClip2D;
 
 				// distribute spritesheets to sprites
-				if(spriteSheet && !c.spriteSheet) {
-					c.setSpriteSheet(spriteSheet.clone());
+				if(spriteSheet != null && m != null && m.spriteSheet == null) {
+					m.setSpriteSheet(spriteSheet.clone());
 				}
 
-				if(texture && !c.texture) {
+				if(texture != null && c.texture == null) {
 					c.setTexture(texture);
 				}
 
@@ -193,16 +194,19 @@ package de.nulldesign.nd2d.display {
 
 		override public function swapChildren(child1:Node2D, child2:Node2D):void {
 			super.swapChildren(child1, child2);
+            var m1:MovieClip2D = child1 as MovieClip2D;
+            var m2:MovieClip2D = child2 as MovieClip2D;
+
 			child1.invalidateColors = true;
 			child1.invalidateMatrix = true;
-			if(Sprite2D(child1).spriteSheet) {
-				Sprite2D(child1).spriteSheet.frameUpdated = true;
+			if(m1 != null && m1.spriteSheet != null) {
+				m1.spriteSheet.frameUpdated = true;
 			}
 
 			child2.invalidateColors = true;
 			child2.invalidateMatrix = true;
-			if(Sprite2D(child2).spriteSheet) {
-				Sprite2D(child2).spriteSheet.frameUpdated = true;
+			if(m2 != null && m2.spriteSheet != null) {
+				m2.spriteSheet.frameUpdated = true;
 			}
 		}
 
@@ -273,6 +277,7 @@ package de.nulldesign.nd2d.display {
 			var sr:Number;
 			var i:int = -1;
 			var child:Sprite2D;
+            var childAsMovie:MovieClip2D;
 			const n:uint = children.length;
 			var sx:Number;
 			var sy:Number;
@@ -293,8 +298,12 @@ package de.nulldesign.nd2d.display {
 			while(++i < n) {
 
 				child = Sprite2D(children[i]);
+                childAsMovie = child as MovieClip2D;
 
-				spriteSheet = child.spriteSheet;
+                if (childAsMovie != null)
+                {
+				    spriteSheet = childAsMovie.spriteSheet;
+                }
 
 				isChildInvalidatedColors = false;
 				if(child.invalidateColors && !isInvalidatedColors) {

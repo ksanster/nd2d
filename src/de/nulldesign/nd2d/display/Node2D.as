@@ -195,7 +195,31 @@ package de.nulldesign.nd2d.display {
 
 		protected var _stage:Stage;
 
-		public function get stage():Stage {
+        protected var halfWidth:Number = 0;
+        protected var halfHeight:Number = 0;
+
+        public function set unscaledWidth (value:Number):void
+        {
+            if (_width == value)
+            {
+                return;
+            }
+            _width = value;
+            halfWidth = value >> 1;
+        }
+
+        public function set unscaledHeight (value:Number):void
+        {
+            if (_height == value)
+            {
+                return;
+            }
+            _height = value;
+            halfHeight = value >> 1;
+        }
+
+
+        public function get stage():Stage {
 			return _stage;
 		}
 
@@ -633,8 +657,6 @@ package de.nulldesign.nd2d.display {
 				return false;
 			}
 
-			var halfWidth:Number = _width >> 1;
-			var halfHeight:Number = _height >> 1;
 			return (_mouseX >= -halfWidth && _mouseX <= halfWidth && _mouseY >= -halfHeight && _mouseY <= halfHeight);
 		}
 

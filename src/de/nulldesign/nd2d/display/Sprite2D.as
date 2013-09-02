@@ -54,7 +54,6 @@ package de.nulldesign.nd2d.display {
 		protected var mask:Sprite2D;
 
 		public var texture:Texture2D;
-		public var spriteSheet:ASpriteSheetBase;
 		public var material:Sprite2DMaterial;
 
 		public var usePixelPerfectHitTest:Boolean = false;
@@ -73,18 +72,6 @@ package de.nulldesign.nd2d.display {
 		}
 
 		/**
-		 * @param SpriteSheet or TextureAtlas
-		 */
-		public function setSpriteSheet(value:ASpriteSheetBase):void {
-			this.spriteSheet = value;
-
-			if(spriteSheet) {
-				_width = spriteSheet.spriteWidth;
-				_height = spriteSheet.spriteHeight;
-			}
-		}
-
-		/**
 		 * The texture object
 		 * @param Texture2D
 		 */
@@ -92,12 +79,9 @@ package de.nulldesign.nd2d.display {
 
 			this.texture = value;
 
-			if(texture && !spriteSheet) {
-				_width = texture.bitmapWidth;
-				_height = texture.bitmapHeight;
-			}
-
-			if(texture) {
+			if (texture) {
+				unscaledWidth = texture.bitmapWidth;
+				unscaledHeight = texture.bitmapHeight;
 				hasPremultipliedAlphaTexture = texture.hasPremultipliedAlpha;
 				blendMode = texture.hasPremultipliedAlpha ? BlendModePresets.NORMAL_PREMULTIPLIED_ALPHA : BlendModePresets.NORMAL_NO_PREMULTIPLIED_ALPHA;
 			}
@@ -132,33 +116,6 @@ package de.nulldesign.nd2d.display {
 			}
 		}
 
-		/**
-		 * sets the spritsheets / textureatlas frame and updated the sprites size immediately
-		 * @param value
-		 */
-		public function setFrameByName(value:String):void {
-			if(spriteSheet) {
-				spriteSheet.setFrameByName(value);
-				_width = spriteSheet.spriteWidth;
-				_height = spriteSheet.spriteHeight;
-			}
-		}
-
-		/**
-		 * starts to play an animation if a spritesheet / textureatlas exists and updates the size of the sprite immediately
-		 * @param name
-		 * @param startIdx
-		 * @param restart
-		 * @param triggerEventOnLastFrame
-		 */
-		public function playAnimation(name:String, startIdx:uint = 0, restart:Boolean = false, triggerEventOnLastFrame:Boolean = false):void {
-			if(spriteSheet) {
-				spriteSheet.playAnimation(name, startIdx, restart, triggerEventOnLastFrame);
-				_width = spriteSheet.spriteWidth;
-				_height = spriteSheet.spriteHeight;
-			}
-		}
-
 		override public function get numTris():uint {
 			return 2;
 		}
@@ -167,19 +124,6 @@ package de.nulldesign.nd2d.display {
 			return material ? material.drawCalls : 0;
 		}
 
-		/**
-		 * @private
-		 */
-		override internal function stepNode(elapsed:Number, timeSinceStartInSeconds:Number):void {
-
-			super.stepNode(elapsed, timeSinceStartInSeconds);
-
-			if(spriteSheet) {
-				spriteSheet.update(timeSinceStartInSeconds);
-				_width = spriteSheet.spriteWidth;
-				_height = spriteSheet.spriteHeight;
-			}
-		}
 
 		override public function handleDeviceLoss():void {
 			super.handleDeviceLoss();
@@ -214,10 +158,6 @@ package de.nulldesign.nd2d.display {
 					currentNodeAsSprite = currentNode as Sprite2DBatch;
 				}
 
-				if(batchSpriteSheet && !spriteSheet) {
-					setSpriteSheet(batchSpriteSheet.clone());
-				}
-
 				if(batchTexture && !texture) {
 					setTexture(batchTexture);
 				}
@@ -230,7 +170,6 @@ package de.nulldesign.nd2d.display {
 			material.modelMatrix = worldModelMatrix;
 			material.viewProjectionMatrix = camera.getViewProjectionMatrix(false);
 			material.colorTransform = combinedColorTransform;
-			material.spriteSheet = spriteSheet;
 			material.texture = texture;
 			material.nodeTinted = nodeIsTinted;
 
@@ -258,14 +197,8 @@ package de.nulldesign.nd2d.display {
 
 			if(usePixelPerfectHitTest && texture.bitmap) {
 
-				var xCoord:Number = _mouseX + (_width >> 1);
-				var yCoord:Number = _mouseY + (_height >> 1);
-
-				if(spriteSheet) {
-					var rect:Rectangle = spriteSheet.getDimensionForFrame();
-					xCoord += rect.x;
-					yCoord += rect.y;
-				}
+				var xCoord:Number = _mouseX + halfWidth;
+				var yCoord:Number = _mouseY + halfHeight;
 
 				return super.hitTest() && (texture.bitmap.getPixel32(xCoord, yCoord) >> 24 & 0xFF) > 0;
 			}

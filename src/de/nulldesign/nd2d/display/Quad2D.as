@@ -86,7 +86,7 @@ package de.nulldesign.nd2d.display {
 			material.modifyColorInBuffer(3, v.r, v.g, v.b, v.a);
 		}
 
-		public function Quad2D(pWidth:Number, pHeight:Number) {
+		public function Quad2D(pWidth:Number, pHeight:Number, color:uint = 0xFFFF0000) {
 
 			_width = pWidth;
 			_height = pHeight;
@@ -94,10 +94,10 @@ package de.nulldesign.nd2d.display {
 			faceList = TextureHelper.generateQuadFromDimensions(pWidth, pHeight);
 			material = new Quad2DColorMaterial();
 
-			topLeftColor = 0xFFFF0000;
-			topRightColor = 0xFF00FF00;
-			bottomRightColor = 0xFF0000FF;
-			bottomLeftColor = 0xFFFFFF00;
+			topLeftColor        = color;
+			topRightColor       = color;
+			bottomRightColor    = color;
+			bottomLeftColor     = color;
 
 			blendMode = BlendModePresets.NORMAL_NO_PREMULTIPLIED_ALPHA;
 		}

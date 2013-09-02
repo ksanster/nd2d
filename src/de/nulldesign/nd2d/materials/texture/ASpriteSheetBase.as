@@ -30,37 +30,25 @@
 
 package de.nulldesign.nd2d.materials.texture {
 
-	import de.nulldesign.nd2d.events.SpriteSheetAnimationEvent;
-	import de.nulldesign.nd2d.materials.texture.SpriteSheetAnimation;
+    import flash.events.EventDispatcher;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.utils.Dictionary;
 
-	import flash.events.EventDispatcher;
-
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
-
-	public class ASpriteSheetBase extends EventDispatcher {
+    public class ASpriteSheetBase extends EventDispatcher {
 
 		protected var frames:Vector.<Rectangle> = new Vector.<Rectangle>();
 		protected var offsets:Vector.<Point> = new Vector.<Point>();
 		protected var frameNameToIndex:Dictionary = new Dictionary();
 		protected var uvRects:Vector.<Rectangle>;
-		protected var animationMap:Dictionary = new Dictionary();
-		protected var activeAnimation:SpriteSheetAnimation;
 
 		protected var spritesPackedWithoutSpace:Boolean;
 
-		protected var ctime:Number = 0.0;
-		protected var otime:Number = 0.0;
-		protected var interp:Number = 0.0;
-
-		protected var triggerEventOnLastFrame:Boolean = false;
 
 		protected var frameIdx:uint = 0;
 
 		public var frameUpdated:Boolean = true;
 
-		protected var fps:uint;
 
 		protected var _spriteWidth:Number;
 		protected var _spriteHeight:Number;
@@ -104,59 +92,6 @@ package de.nulldesign.nd2d.materials.texture {
 
 		}
 
-		public function update(t:Number):void {
-
-			if(!activeAnimation) return;
-
-			var prevFrameIdx:int = frameIdx;
-
-			ctime = t;
-
-			// Update the timer part, to get time based animation
-			interp += fps * (ctime - otime);
-			if(interp >= 1.0) {
-				frameIdx++;
-				interp = 0;
-			}
-
-			if(activeAnimation.loop) {
-				frameIdx = frameIdx % activeAnimation.numFrames;
-			} else {
-				frameIdx = Math.min(frameIdx, activeAnimation.numFrames - 1);
-			}
-
-			frame = activeAnimation.frames[frameIdx];
-
-			otime = ctime;
-
-			// skipped frames
-			if(triggerEventOnLastFrame && (frameIdx == activeAnimation.numFrames - 1 || frameIdx < prevFrameIdx)) {
-				if(!activeAnimation.loop) {
-					triggerEventOnLastFrame = false;
-				}
-				dispatchEvent(new SpriteSheetAnimationEvent(SpriteSheetAnimationEvent.ANIMATION_FINISHED));
-			}
-		}
-
-		public function stopCurrentAnimation():void {
-			activeAnimation = null;
-		}
-
-		public function playAnimation(name:String, startIdx:uint = 0, restart:Boolean = false, triggerEventOnLastFrame:Boolean = false):void {
-
-			this.triggerEventOnLastFrame = triggerEventOnLastFrame;
-
-			if(restart || activeAnimation != animationMap[name]) {
-				frameIdx = startIdx;
-				activeAnimation = animationMap[name];
-				frame = activeAnimation.frames[0];
-			}
-		}
-
-		public function addAnimation(name:String, keyFrames:Array, loop:Boolean):void {
-
-		}
-
 		public function clone():ASpriteSheetBase {
 			return null;
 		}
@@ -191,17 +126,6 @@ package de.nulldesign.nd2d.materials.texture {
 			frame = getIndexForFrame(value);
 		}
 
-		/**
-		 * Convenience method to directly set an animation frame by name
-		 * @param name of the animation to set
-		 * @param index frame in the animation to set
-		 */
-		public function setFrameByAnimationName(name:String, index:uint = 0):void {
-			if(animationMap[name]) {
-				frame = animationMap[name].frames[index];
-			}
-		}
-
 		public function getUVRectForFrame(textureWidth:Number, textureHeight:Number):Rectangle {
 
 			if(uvRects[frame]) {
@@ -231,6 +155,19 @@ package de.nulldesign.nd2d.materials.texture {
 
 			return rect;
 		}
+
+        public function getSequenceByName (frameNamePattern:*):Vector.<uint>
+        {
+            var keyFramesIndices:Vector.<uint> = new <uint>[];
+            for (var frameName:String in frameNameToIndex)
+            {
+                if (frameName.match(frameNamePattern))
+                {
+                    keyFramesIndices[keyFramesIndices.length] = frameNameToIndex[frameName];
+                }
+            }
+            return keyFramesIndices;
+        }
 		
 		public function dispose():void
 		{
@@ -238,13 +175,6 @@ package de.nulldesign.nd2d.materials.texture {
 			offsets = null;
 			frameNameToIndex = null;
 			uvRects = null;
-			animationMap = null;
-			
-			if(activeAnimation)
-			{
-				activeAnimation.dispose();
-				activeAnimation = null;
-			}
 		}
 	}
 }

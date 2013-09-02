@@ -30,7 +30,8 @@
 
 package de.nulldesign.nd2d.materials {
 
-	import de.nulldesign.nd2d.display.Node2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Node2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.geom.Face;
 	import de.nulldesign.nd2d.geom.UV;
@@ -161,7 +162,7 @@ package de.nulldesign.nd2d.materials {
 			if(!childList || childList.length == 0) return;
 
 			var childNode:Node2D;
-			var child:Sprite2D;
+			var child:MovieClip2D;
 			const colorMultiplierAndOffset:Vector.<Number> = new Vector.<Number>(8, true);
 			const uvoffset:Vector.<Number> = new Vector.<Number>(4, true);
 			var i:int = -1;
@@ -172,11 +173,11 @@ package de.nulldesign.nd2d.materials {
 			while(++i < n) {
 
 				childNode = childList[i];
-				child = childNode as Sprite2D;
+				child = childNode as MovieClip2D;
 
 				if(child && child.visible) {
 
-					if(child.invalidateColors) child.updateColors();
+                    if(child.invalidateColors) child.updateColors();
 					if(child.invalidateMatrix) child.updateLocalMatrix();
 
 					child.updateWorldMatrix();

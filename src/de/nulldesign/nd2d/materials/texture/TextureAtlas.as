@@ -30,14 +30,11 @@
 
 package de.nulldesign.nd2d.materials.texture {
 
-	import de.nulldesign.nd2d.materials.texture.parser.ATextureAtlasParser;
-	import de.nulldesign.nd2d.materials.texture.parser.TexturePackerParser;
-	import de.nulldesign.nd2d.materials.texture.parser.ZwopTexParser;
+    import de.nulldesign.nd2d.materials.texture.parser.ATextureAtlasParser;
 
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.geom.Rectangle;
 
-	public class TextureAtlas extends ASpriteSheetBase {
+    public class TextureAtlas extends ASpriteSheetBase {
 
 		/**
 		 * spritesPackedWithoutSpace set to true to get rid of pixel bleeding for packed atlases without spaces: http://www.nulldesign.de/2011/08/30/nd2d-pixel-bleeding/
@@ -48,8 +45,7 @@ package de.nulldesign.nd2d.materials.texture {
 		 * @param fps
 		 * @param spritesPackedWithoutSpace
 		 */
-		public function TextureAtlas(sheetWidth:Number, sheetHeight:Number, xmlData:XML, parser:ATextureAtlasParser, fps:uint, spritesPackedWithoutSpace:Boolean = false) {
-			this.fps = fps;
+		public function TextureAtlas(sheetWidth:Number, sheetHeight:Number, xmlData:XML, parser:ATextureAtlasParser,spritesPackedWithoutSpace:Boolean = false) {
 			this.spritesPackedWithoutSpace = spritesPackedWithoutSpace;
 			this._sheetWidth = sheetWidth;
 			this._sheetHeight = sheetHeight;
@@ -58,42 +54,6 @@ package de.nulldesign.nd2d.materials.texture {
 				parse(xmlData, parser);
 			}
 		}
-
-		override public function addAnimation(name:String, keyFrames:Array, loop:Boolean):void {
-
-			if(keyFrames[0] is String) {
-
-				// make indices out of names
-				var keyFramesIndices:Array = [];
-
-				for(var i:int = 0; i < keyFrames.length; i++) {
-					keyFramesIndices.push(frameNameToIndex[keyFrames[i]]);
-				}
-
-				animationMap[name] = new SpriteSheetAnimation(keyFramesIndices, loop);
-
-			} else {
-				animationMap[name] = new SpriteSheetAnimation(keyFrames, loop);
-			}
-		}
-		
-		/**
-		    Simple way of add animation by frame name;
-		*/
-		public function addAnimationByName (name:String, frameNamePattern:*, loop:Boolean):void
-        {
-            var keyFramesIndices:Array = [];
-
-            for (var frameName:String in frameNameToIndex)
-            {
-                if (frameName.match(frameNamePattern))
-                {
-                    keyFramesIndices[keyFramesIndices.length] = frameNameToIndex[frameName];
-                }
-            }
-
-            animationMap[name] = new SpriteSheetAnimation(keyFramesIndices, loop);
-        }
 
 		/**
 		 * parser switch
@@ -113,10 +73,8 @@ package de.nulldesign.nd2d.materials.texture {
 
 		override public function clone():ASpriteSheetBase {
 
-			var t:TextureAtlas = new TextureAtlas(_sheetWidth, _sheetHeight, null, null, fps, spritesPackedWithoutSpace);
+			var t:TextureAtlas = new TextureAtlas(_sheetWidth, _sheetHeight, null, null, spritesPackedWithoutSpace);
 
-			t.animationMap = animationMap;
-			t.activeAnimation = activeAnimation;
 			t.frames = frames;
 			t.offsets = offsets;
 			t.frameNameToIndex = frameNameToIndex;

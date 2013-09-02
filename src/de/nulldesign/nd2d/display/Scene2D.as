@@ -126,8 +126,8 @@ package de.nulldesign.nd2d.display {
 			super.setStageAndCamRef(value, cameraValue);
 
 			if(camera) {
-				_width = camera.sceneWidth;
-				_height = camera.sceneHeight;
+				unscaledWidth = camera.sceneWidth;
+				unscaledHeight = camera.sceneHeight;
 			}
 
 			if(sceneGUILayer) {

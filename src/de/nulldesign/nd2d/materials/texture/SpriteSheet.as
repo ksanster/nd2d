@@ -30,10 +30,10 @@
 
 package de.nulldesign.nd2d.materials.texture {
 
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 
-	public class SpriteSheet extends ASpriteSheetBase {
+    public class SpriteSheet extends ASpriteSheetBase {
 
 		private var nullOffset:Point = new Point();
 
@@ -46,8 +46,7 @@ package de.nulldesign.nd2d.materials.texture {
 		 * @param fps
 		 * @param spritesPackedWithoutSpace set to true to get rid of pixel bleeding for packed sprites without spaces: http://www.nulldesign.de/2011/08/30/nd2d-pixel-bleeding/
 		 */
-		public function SpriteSheet(sheetWidth:Number, sheetHeight:Number, spriteWidth:Number, spriteHeight:Number, fps:uint, spritesPackedWithoutSpace:Boolean = false) {
-			this.fps = fps;
+		public function SpriteSheet(sheetWidth:Number, sheetHeight:Number, spriteWidth:Number, spriteHeight:Number, spritesPackedWithoutSpace:Boolean = false) {
 			this.spritesPackedWithoutSpace = spritesPackedWithoutSpace;
 
 			_spriteWidth = spriteWidth;
@@ -82,23 +81,13 @@ package de.nulldesign.nd2d.materials.texture {
 			frame = 0;
 		}
 
-		override public function addAnimation(name:String, keyFrames:Array, loop:Boolean):void {
-			animationMap[name] = new SpriteSheetAnimation(keyFrames, loop);
-		}
-
 		override public function getOffsetForFrame():Point {
 			return nullOffset;
 		}
 
 		override public function clone():ASpriteSheetBase {
 
-			var s:SpriteSheet = new SpriteSheet(_sheetWidth, _sheetHeight, _spriteWidth, _spriteHeight, fps, spritesPackedWithoutSpace);
-
-			for(var name:String in animationMap) {
-				var anim:SpriteSheetAnimation = animationMap[name];
-				s.addAnimation(name, anim.frames.concat(), anim.loop);
-			}
-
+			var s:SpriteSheet = new SpriteSheet(_sheetWidth, _sheetHeight, _spriteWidth, _spriteHeight, spritesPackedWithoutSpace);
 			s.frame = frame;
 
 			return s;

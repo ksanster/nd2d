@@ -30,7 +30,8 @@
 
 package tests {
 
-	import de.nulldesign.nd2d.display.Scene2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.display.Sprite2DBatch;
 	import de.nulldesign.nd2d.materials.texture.SpriteSheet;
@@ -52,7 +53,7 @@ package tests {
         [Embed(source="/assets/textureatlas_zwoptex_default.plist", mimeType="application/octet-stream")]
         protected var textureAtlasXMLZwoptex:Class;
 
-        protected var s:Sprite2D;
+        protected var s:MovieClip2D;
 
         [Embed(source="/assets/spritechar1.png")]
         protected var spriteTexture:Class;
@@ -68,22 +69,20 @@ package tests {
 
             var tex:Texture2D = Texture2D.textureFromBitmapData(new spriteTexture().bitmapData);
 
-            var sheet:SpriteSheet = new SpriteSheet(tex.bitmapWidth, tex.bitmapHeight, 24, 32, 5);
-            sheet.addAnimation("blah", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
-            sheet.playAnimation("blah", 0, true);
 			/*
             var atlasTex:Texture2D = Texture2D.textureFromBitmapData(new textureAtlasBitmap().bitmapData);
 			var atlas:TextureAtlas = new TextureAtlas(atlasTex.bitmapWidth, atlasTex.bitmapHeight, new XML(new textureAtlasXML()), TextureAtlas.XML_FORMAT_COCOS2D, 5, false);
             */
 			var atlasTex:Texture2D = Texture2D.textureFromBitmapData(new textureAtlasBitmapZwoptex().bitmapData);
-			var atlas:TextureAtlas = new TextureAtlas(atlasTex.bitmapWidth, atlasTex.bitmapHeight, new XML(new textureAtlasXMLZwoptex()), new ZwopTexParser(), 5, false);
+			var atlas:TextureAtlas = new TextureAtlas(atlasTex.bitmapWidth, atlasTex.bitmapHeight, new XML(new textureAtlasXMLZwoptex()), new ZwopTexParser(), false);
 
-			s = addChild(new Sprite2D(atlasTex)) as Sprite2D;
+			s = addChild(new MovieClip2D(atlasTex, atlas, 5)) as MovieClip2D;
             s.setSpriteSheet(atlas);
 
-            atlas.addAnimation("blah", ["c01", "c02", "c03", "c04", "c05", "c06", "c07", "c08", "c09", "c10", "c11", "c12", "b01", "b02", "b03", "b04", "b05", "b06", "b07", "b08", "b09", "b10", "b11", "b12"], true);
+            s.addAnimationByName("blah", /^[c|b]\d+/, true);
+//            atlas.addAnimation("blah", ["c01", "c02", "c03", "c04", "c05", "c06", "c07", "c08", "c09", "c10", "c11", "c12", "b01", "b02", "b03", "b04", "b05", "b06", "b07", "b08", "b09", "b10", "b11", "b12"], true);
 
-            atlas.playAnimation("blah");
+            s.playAnimation("blah");
 
             //s2 = new Sprite2DBatch(tex);
             //s2 = new Sprite2DBatch(sheet);
@@ -97,14 +96,14 @@ package tests {
             addChild(s2);
 
             for(var i:int = 0; i < 100; i++) {
-                var batchChild:Sprite2D = new Sprite2D();
+                var batchChild:MovieClip2D = new MovieClip2D();
                 batchChild.x = (i % 10) * 50.0;
                 batchChild.y = Math.floor(i / 10) * 50.0;
                 //batchChild.pivot.x = 10.0;
                 //batchChild.pivot.y = 10.0;
 
                 s2.addChild(batchChild);
-                batchChild.spriteSheet.playAnimation("blah", i, true);
+                batchChild.playAnimation("blah", i, true);
             }
 
             s.x = 200.0;

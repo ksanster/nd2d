@@ -29,7 +29,8 @@
  */
 package tests {
 
-	import de.nulldesign.nd2d.display.Node2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Node2D;
 
 	import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
@@ -68,7 +69,7 @@ package tests {
 			batchNode.setSpriteSheet(sheet);
 
 			for(var i:int = 0; i < 40; i++) {
-				var s:Sprite2D = new Sprite2D();
+				var s:MovieClip2D = new MovieClip2D();
 				batchNode.addChild(s);
 
 				s.x = (i % 10) * 78.0 - 780.0 * 0.5;

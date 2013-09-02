@@ -85,10 +85,11 @@ package de.nulldesign.nd2d.display {
 			}
 
 			var c:Sprite2D = child as Sprite2D;
+            var m:MovieClip2D = child as MovieClip2D;
 
 			// distribute spritesheets to sprites
-			if(c && spriteSheet && !c.spriteSheet) {
-				c.setSpriteSheet(spriteSheet.clone());
+			if(m != null && spriteSheet && !m.spriteSheet) {
+				m.setSpriteSheet(spriteSheet.clone());
 			}
 
 			if(c && texture && !c.texture) {

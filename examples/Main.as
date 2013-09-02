@@ -31,59 +31,26 @@
 package
 {
 
-	import avmplus.getQualifiedClassName;
-	
-	import com.bit101.components.PushButton;
-	
-	import de.nulldesign.nd2d.display.Scene2D;
-	import de.nulldesign.nd2d.display.World2D;
-	
-	import flash.display.StageAlign;
-	import flash.display.StageDisplayState;
-	import flash.display.StageScaleMode;
-	import flash.display3D.Context3DProfile;
-	import flash.display3D.Context3DRenderMode;
-	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.events.MouseEvent;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
-	import flash.ui.Keyboard;
+    import avmplus.getQualifiedClassName;
 
-	import flashx.textLayout.edit.SelectionFormat;
+    import de.nulldesign.nd2d.display.Scene2D;
+    import de.nulldesign.nd2d.display.World2D;
 
-	import net.hires.debug.Stats;
-	
-	import tests.BatchTest;
-	import tests.BlurTest;
-	import tests.CameraTest;
-	import tests.ColorTransformTest;
-	import tests.Font2DTest;
-	import tests.Grid2DTest;
-	import tests.MaskTest;
-	import tests.MassiveSpriteCloudTest;
-	import tests.MassiveSpritesTest;
-	import tests.ParticleExplorer;
-	import tests.ParticleSystemExtTest;
-	import tests.ParticleSystemTest;
-	import tests.PostProcessingTest;
-	import tests.QuadMaterialTest;
-	import tests.SideScrollerTest;
-	import tests.SpeedTest;
-	import tests.Sprite2DCloudParticles;
-	import tests.SpriteAnimTest;
-	import tests.SpriteCloudVisibilityTest;
-	import tests.SpriteHierarchyTest;
-	import tests.SpriteHierarchyTest2;
-	import tests.SpriteTest;
-	import tests.StarFieldTest;
-	import tests.TextFieldTest;
-	import tests.TextureAndRotationOptionsTest;
-	import tests.TextureAtlasTest;
-	import tests.TextureRendererTest;
-	import tests.Transform3DTest;
+    import flash.display.StageAlign;
+    import flash.display.StageDisplayState;
+    import flash.display.StageScaleMode;
+    import flash.display3D.Context3DRenderMode;
+    import flash.events.Event;
+    import flash.events.KeyboardEvent;
+    import flash.text.TextField;
+    import flash.text.TextFormat;
+    import flash.ui.Keyboard;
 
-	[SWF(width = "1000", height = "550", frameRate = "60", backgroundColor = "#000000")]
+    import net.hires.debug.Stats;
+
+    import tests.TextureAtlasTest;
+
+    [SWF(width = "1000", height = "550", frameRate = "60", backgroundColor = "#000000")]
 	public class Main extends World2D
 	{
 
@@ -106,34 +73,34 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			enableErrorChecking = false;
 
-			scenes.push(SideScrollerTest);
-			scenes.push(MassiveSpritesTest);// dispose best practice 
-			scenes.push(MassiveSpriteCloudTest);
-			scenes.push(SpriteHierarchyTest);
-			scenes.push(SpriteHierarchyTest2);
-			scenes.push(Font2DTest);
-			scenes.push(Grid2DTest);
-			scenes.push(SpriteTest);
-			scenes.push(SpriteAnimTest);
-			scenes.push(StarFieldTest);
-			scenes.push(ParticleSystemTest);
-			scenes.push(CameraTest);
-			scenes.push(ParticleExplorer);
-			scenes.push(MaskTest);
+//			scenes.push(SideScrollerTest);
+//			scenes.push(MassiveSpritesTest);// dispose best practice
+//			scenes.push(MassiveSpriteCloudTest);
+//			scenes.push(SpriteHierarchyTest);
+//			scenes.push(SpriteHierarchyTest2);
+//			scenes.push(Font2DTest);
+//			scenes.push(Grid2DTest);
+//			scenes.push(SpriteTest);
+//			scenes.push(SpriteAnimTest);
+//			scenes.push(StarFieldTest);
+//			scenes.push(ParticleSystemTest);
+//			scenes.push(CameraTest);
+//			scenes.push(ParticleExplorer);
+//			scenes.push(MaskTest);
 			scenes.push(TextureAtlasTest);
-			scenes.push(BatchTest);
-			scenes.push(TextureRendererTest);
-			scenes.push(PostProcessingTest);
-			scenes.push(ColorTransformTest);
-			scenes.push(Sprite2DCloudParticles);
-			scenes.push(SpeedTest);
-			scenes.push(TextureAndRotationOptionsTest);
-			scenes.push(Transform3DTest);
-			scenes.push(TextFieldTest);
-			scenes.push(QuadMaterialTest);
-			scenes.push(BlurTest);
-			scenes.push(SpriteCloudVisibilityTest);
-			scenes.push(ParticleSystemExtTest); // example on how to extend ND2D and build your own objects
+//			scenes.push(BatchTest);
+//			scenes.push(TextureRendererTest);
+//			scenes.push(PostProcessingTest);
+//			scenes.push(ColorTransformTest);
+//			scenes.push(Sprite2DCloudParticles);
+//			scenes.push(SpeedTest);
+//			scenes.push(TextureAndRotationOptionsTest);
+//			scenes.push(Transform3DTest);
+//			scenes.push(TextFieldTest);
+//			scenes.push(QuadMaterialTest);
+//			scenes.push(BlurTest);
+//			scenes.push(SpriteCloudVisibilityTest);
+//			scenes.push(ParticleSystemExtTest); // example on how to extend ND2D and build your own objects
 
 			sceneText = new TextField();
 			sceneText.autoSize = "left";
