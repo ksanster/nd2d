@@ -42,6 +42,9 @@ package de.nulldesign.nd2d.display {
 	 */
 	public class Camera2D {
 
+        private static const fovDegree:Number = 60.0;
+        private static const magicNumber:Number = Math.tan(VectorUtil.deg2rad(fovDegree * 0.5));
+
 		protected var renderMatrixOrtho:Matrix3D = new Matrix3D();
 		protected var renderMatrixPerspective:Matrix3D = new Matrix3D();
 
@@ -52,6 +55,9 @@ package de.nulldesign.nd2d.display {
 		protected var _sceneWidth:Number;
 		protected var _sceneHeight:Number;
 
+        protected var _sceneHalfWidth:Number;
+        protected var _sceneHalfHeight:Number;
+
 		protected var invalidated:Boolean = true;
 
 		public function Camera2D(w:Number, h:Number) {
@@ -59,19 +65,19 @@ package de.nulldesign.nd2d.display {
 		}
 
 		public function resizeCameraStage(w:Number, h:Number):void {
-			_sceneWidth = w;
-			_sceneHeight = h;
-			invalidated = true;
+			_sceneWidth      = w;
+			_sceneHeight     = h;
+            _sceneHalfWidth  = w * .5;
+            _sceneHalfHeight = h * .5;
+			invalidated      = true;
 
 			orthoProjectionMatrix = makeOrtographicMatrix(0, w, 0, h);
 
-			var fovDegree:Number = 60.0;
-			var magicNumber:Number = Math.tan(VectorUtil.deg2rad(fovDegree * 0.5));
 			var projMat:Matrix3D = makeProjectionMatrix(0.1, 2000.0, fovDegree, w / h);
 			var lookAtPosition:Vector3D = new Vector3D(0.0, 0.0, 0.0);
 			
 			// zEye distance from origin: sceneHeight * 0.5 / tan(a) 
-			var eye:Vector3D = new Vector3D(0, 0, -(_sceneHeight * 0.5) / magicNumber);
+			var eye:Vector3D = new Vector3D(0, 0, - _sceneHalfHeight / magicNumber);
 			var lookAtMat:Matrix3D = lookAt(lookAtPosition, eye);
 
 			lookAtMat.append(projMat);
@@ -80,10 +86,7 @@ package de.nulldesign.nd2d.display {
 
 		protected function lookAt(lookAt:Vector3D, position:Vector3D):Matrix3D {
 
-			var up:Vector3D = new Vector3D();
-			up.x = Math.sin(0.0);
-			up.y = -Math.cos(0.0);
-			up.z = 0;
+			var up:Vector3D = new Vector3D(0, -1, 0);
 
 			var forward:Vector3D = new Vector3D();
 			forward.x = lookAt.x - position.x;
@@ -159,7 +162,7 @@ package de.nulldesign.nd2d.display {
 				invalidated = false;
 
 				viewMatrix.identity();
-				viewMatrix.appendTranslation(-sceneWidth / 2 - x, -sceneHeight / 2 - y, 0.0);
+				viewMatrix.appendTranslation(- _sceneHalfWidth - x, - _sceneHalfHeight - y, 0.0);
 				viewMatrix.appendScale(zoom, zoom, 1.0);
 				viewMatrix.appendRotation(_rotation, Vector3D.Z_AXIS);
 
@@ -231,6 +234,14 @@ package de.nulldesign.nd2d.display {
 
 		public function get sceneHeight():Number {
 			return _sceneHeight;
+		}
+
+		public function get sceneHalfWidth():Number {
+			return _sceneHalfWidth;
+		}
+
+		public function get sceneHalfHeight():Number {
+			return _sceneHalfHeight;
 		}
 	}
 }
