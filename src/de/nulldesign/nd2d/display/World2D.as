@@ -142,6 +142,7 @@ package de.nulldesign.nd2d.display {
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseEventHandler);
 
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+
 			stage.addEventListener(TouchEvent.TOUCH_TAP, touchEventHandler);
 			stage.addEventListener(TouchEvent.TOUCH_BEGIN, touchEventHandler);
 			stage.addEventListener(TouchEvent.TOUCH_MOVE, touchEventHandler);
