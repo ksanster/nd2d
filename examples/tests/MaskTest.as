@@ -123,12 +123,12 @@ package tests {
 		override protected function step(elapsed:Number):void {
 			super.step(elapsed);
 
-			sprite.x = camera.sceneWidth * 0.5;
-			sprite.y = camera.sceneHeight * 0.5;
+			sprite.x = camera.sceneHalfWidth;
+			sprite.y = camera.sceneHalfHeight;
 			sprite.rotation += 2.0;
 
-			sprite2.x = camera.sceneWidth * 0.5 + 256.0;
-			sprite2.y = camera.sceneHeight * 0.5;
+			sprite2.x = camera.sceneHalfWidth + 256.0;
+			sprite2.y = camera.sceneHalfHeight;
 			sprite2.rotation += 2.5;
 
 			mask.x = mouseX;

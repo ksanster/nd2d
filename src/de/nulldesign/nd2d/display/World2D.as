@@ -182,8 +182,8 @@ package de.nulldesign.nd2d.display {
 				var mouseEventType:String = event.type;
 
 				// transformation of normalized coordinates between -1 and 1
-				mousePosition.x = (event.stageX - (bounds ? bounds.x : 0.0)) / camera.sceneWidth * 2.0 - 1.0;
-				mousePosition.y = -((event.stageY - (bounds ? bounds.y : 0.0)) / camera.sceneHeight * 2.0 - 1.0);
+				mousePosition.x = (event.stageX - (bounds ? bounds.x : 0.0)) / camera.sceneHalfWidth - 1.0;
+				mousePosition.y = -((event.stageY - (bounds ? bounds.y : 0.0)) / camera.sceneHalfHeight - 1.0);
 				mousePosition.z = 0.0;
 				mousePosition.w = 1.0;
 
@@ -211,8 +211,8 @@ package de.nulldesign.nd2d.display {
 				var mouseEventType:String = event.type;
 
 				// transformation of normalized coordinates between -1 and 1
-				mousePosition.x = (stage.mouseX - (bounds ? bounds.x : 0.0)) / camera.sceneWidth * 2.0 - 1.0;
-				mousePosition.y = -((stage.mouseY - (bounds ? bounds.y : 0.0)) / camera.sceneHeight * 2.0 - 1.0);
+				mousePosition.x = (stage.mouseX - (bounds ? bounds.x : 0.0)) / camera.sceneHalfWidth - 1.0;
+				mousePosition.y = -((stage.mouseY - (bounds ? bounds.y : 0.0)) / camera.sceneHalfHeight - 1.0);
 				mousePosition.z = 0.0;
 				mousePosition.w = 1.0;
 

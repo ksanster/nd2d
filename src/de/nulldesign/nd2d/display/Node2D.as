@@ -854,7 +854,7 @@ package de.nulldesign.nd2d.display {
 			clipSpaceMat.append(camera.getViewProjectionMatrix());
 
 			var v:Vector3D = clipSpaceMat.transformVector(new Vector3D(p.x, p.y, 0.0));
-			return new Point((v.x + 1.0) * 0.5 * camera.sceneWidth, (-v.y + 1.0) * 0.5 * camera.sceneHeight);
+			return new Point((v.x + 1.0) * camera.sceneHalfWidth, (-v.y + 1.0) * camera.sceneHalfHeight);
 		}
 
 		/**
@@ -869,8 +869,8 @@ package de.nulldesign.nd2d.display {
 			clipSpaceMat.append(camera.getViewProjectionMatrix());
 			clipSpaceMat.invert();
 
-			var from:Vector3D = new Vector3D(p.x / camera.sceneWidth * 2.0 - 1.0,
-					-(p.y / camera.sceneHeight * 2.0 - 1.0),
+			var from:Vector3D = new Vector3D(p.x / camera.sceneHalfWidth - 1.0,
+					-(p.y / camera.sceneHalfHeight - 1.0),
 					0.0, 1.0);
 
 			var v:Vector3D = clipSpaceMat.transformVector(from);

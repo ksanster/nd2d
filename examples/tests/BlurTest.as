@@ -30,7 +30,8 @@
 
 package tests {
 
-	import de.nulldesign.nd2d.display.Scene2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.materials.Sprite2DBlurMaterial;
 	import de.nulldesign.nd2d.materials.texture.SpriteSheet;
@@ -47,8 +48,8 @@ package tests {
 		[Embed(source="/assets/spritechar1.png")]
 		private var spriteBitmap:Class;
 
-		private var sprite:Sprite2D;
-		private var sprite2:Sprite2D;
+		private var sprite:MovieClip2D;
+		private var sprite2:MovieClip2D;
 		private var sprite3:Sprite2D;
 		private var blurMaterial:Sprite2DBlurMaterial;
 		private var blurMaterial2:Sprite2DBlurMaterial;
@@ -65,16 +66,15 @@ package tests {
 			tex2.textureOptions = TextureOption.FILTERING_NEAREST | TextureOption.MIPMAP_DISABLE | TextureOption.REPEAT_CLAMP;
 
 			var sheet:SpriteSheet = new SpriteSheet(tex2.bitmapWidth, tex2.bitmapHeight, 24, 32, 5);
-			sheet.addAnimation("test", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
-			sheet.playAnimation("test", 0, true);
 
-			sprite = new Sprite2D(tex1);
+			sprite = new MovieClip2D(tex1);
 			addChild(sprite);
 
-			sprite2 = new Sprite2D(tex2);
+			sprite2 = new MovieClip2D(tex2, sheet, 5);
 			addChild(sprite2);
-			sprite2.setSpriteSheet(sheet);
 			sprite2.scaleX = sprite2.scaleY = 4.0;
+            sprite2.addAnimation("test", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            sprite2.playAnimation("test", 0, true);
 
 			sprite3 = new Sprite2D(tex2);
 			addChild(sprite3);
@@ -93,12 +93,12 @@ package tests {
 
 			super.step(elapsed);
 
-			sprite.x = camera.sceneWidth * 0.5 - sprite.width;
-			sprite.y = camera.sceneHeight * 0.5;
+			sprite.x = camera.x - sprite.width;
+			sprite.y = camera.y;
 			sprite.rotation += 5.0;
 
-			sprite2.x = camera.sceneWidth * 0.5 + sprite2.width;
-			sprite2.y = camera.sceneHeight * 0.5;
+			sprite2.x = camera.x + sprite2.width;
+			sprite2.y = camera.y;
 
 			sprite3.x = sprite2.x + sprite2.width * 2.0;
 			sprite3.y = sprite2.y;

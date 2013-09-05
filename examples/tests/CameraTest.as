@@ -106,14 +106,14 @@ package tests {
 		}
 
 		override protected function step(elapsed:Number):void {
-			back.x = camera.sceneWidth * 0.5;
-			back.y = camera.sceneHeight * 0.5;
+			back.x = camera.sceneHalfWidth;
+			back.y = camera.sceneHalfHeight;
 			back.width = camera.sceneWidth * 5.0;
 			back.height = camera.sceneHeight * 5.0;
 
 			if(targetNode) {
-				camera.x += ((targetNode.x - camera.sceneHalfWidth) - camera.x) * 0.05;
-				camera.y += ((targetNode.y - camera.sceneHalfHeight) - camera.y) * 0.05;
+				camera.x += (targetNode.x - camera.x) * 0.05;
+				camera.y += (targetNode.y - camera.y) * 0.05;
 				camera.rotation += (-targetNode.rotation - camera.rotation) * 0.05;
 			}
 		}

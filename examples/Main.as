@@ -49,6 +49,7 @@ package
     import net.hires.debug.Stats;
 
     import tests.BatchTest;
+    import tests.BlurTest;
 
     import tests.CameraTest;
 
@@ -105,6 +106,7 @@ package
 //			scenes.push(SpriteAnimTest);
 //			scenes.push(StarFieldTest);
 //			scenes.push(ParticleSystemTest);
+			scenes.push(BlurTest);
 			scenes.push(CameraTest);
 //			scenes.push(ParticleExplorer);
 //			scenes.push(MaskTest);

@@ -228,8 +228,8 @@ package de.nulldesign.nd2d.materials {
 
 			// set up camera for blurry texture
 			blurredTextureCam.resizeCameraStage(texture.textureWidth, texture.textureHeight);
-			blurredTextureCam.x = -texture.textureWidth * 0.5;
-			blurredTextureCam.y = -texture.textureHeight * 0.5;
+			blurredTextureCam.x = 0;//-texture.textureWidth * 0.5;
+			blurredTextureCam.y = 0;//-texture.textureHeight * 0.5;
 
 			// save camera matrix
 			var savedCamMatrix:Matrix3D = viewProjectionMatrix;

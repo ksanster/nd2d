@@ -256,7 +256,7 @@ package tests {
 
             var i:int;
 
-            scrollX = -(mouseX - camera.sceneWidth * 0.5) * 0.05;
+            scrollX = -(mouseX - camera.sceneHalfWidth) * 0.05;
 
             var s:Sprite2D;
 
@@ -312,8 +312,8 @@ package tests {
             }
 
             if(wind) {
-                wind.x = camera.sceneWidth * 0.5;
-                wind.y = camera.sceneHeight * 0.5;
+                wind.x = camera.sceneHalfWidth;
+                wind.y = camera.sceneHalfHeight;
                 wind.gravity.x = 200.0 * scrollX;
             }
         }

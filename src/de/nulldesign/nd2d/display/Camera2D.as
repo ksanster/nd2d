@@ -69,6 +69,10 @@ package de.nulldesign.nd2d.display {
 			_sceneHeight     = h;
             _sceneHalfWidth  = w * .5;
             _sceneHalfHeight = h * .5;
+
+            _x = _sceneHalfWidth;
+            _y = _sceneHalfHeight;
+
 			invalidated      = true;
 
 			orthoProjectionMatrix = makeOrtographicMatrix(0, w, 0, h);
@@ -162,7 +166,7 @@ package de.nulldesign.nd2d.display {
 				invalidated = false;
 
 				viewMatrix.identity();
-				viewMatrix.appendTranslation(- _sceneHalfWidth - x, - _sceneHalfHeight - y, 0.0);
+				viewMatrix.appendTranslation( - x, - y, 0.0);
 				viewMatrix.appendScale(zoom, zoom, 1.0);
 				viewMatrix.appendRotation(_rotation, Vector3D.Z_AXIS);
 
@@ -180,7 +184,9 @@ package de.nulldesign.nd2d.display {
 		}
 
 		public function reset():void {
-			x = y = rotation = 0;
+			x = _sceneHalfWidth;
+            y = _sceneHalfHeight;
+            rotation = 0;
 			zoom = 1;
 		}
 
