@@ -32,7 +32,8 @@
 
 package {
 
-	import de.nulldesign.nd2d.display.Scene2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+    import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.display.World2D;
 	import de.nulldesign.nd2d.materials.texture.SpriteSheet;
@@ -74,21 +75,18 @@ package {
 			var tex1:Texture2D = Texture2D.textureFromBitmapData(new spriteTexture().bitmapData);
 			var tex2:Texture2D = Texture2D.textureFromBitmapData(new spriteTexture().bitmapData);
 
-			var sheet1:SpriteSheet = new SpriteSheet(tex1.bitmapWidth, tex1.bitmapHeight, 24, 32, 10);
-			sheet1.addAnimation("blah", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
-			sheet1.playAnimation("blah", 0, true, false);
+			var sheet1:SpriteSheet = new SpriteSheet(tex1.bitmapWidth, tex1.bitmapHeight, 24, 32);
+			var sheet2:SpriteSheet = new SpriteSheet(tex2.bitmapWidth, tex2.bitmapHeight, 24, 32);
 
-			var sheet2:SpriteSheet = new SpriteSheet(tex2.bitmapWidth, tex2.bitmapHeight, 24, 32, 10);
-			sheet2.addAnimation("blah", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
-			sheet2.playAnimation("blah", 0, true, false);
-
-			var s1:Sprite2D = new Sprite2D(tex1);
-			s1.setSpriteSheet(sheet1);
+			var s1:MovieClip2D = new MovieClip2D(tex1, sheet1, 10);
+            s1.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            s1.playAnimation("blah", 0, true, false);
 			s1.position = new Vector3D(100.0, 100.0);
 			scene1.addChild(s1);
 
-			var s2:Sprite2D = new Sprite2D(tex2);
-			s2.setSpriteSheet(sheet2);
+			var s2:MovieClip2D = new MovieClip2D(tex2, sheet2, 10);
+            s2.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            s2.playAnimation("blah", 0, true, false);
 			s2.position = new Vector3D(100.0, 100.0);
 			scene2.addChild(s2);
 

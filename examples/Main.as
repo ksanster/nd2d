@@ -106,7 +106,9 @@ package
 //			scenes.push(SpriteAnimTest);
 //			scenes.push(StarFieldTest);
 //			scenes.push(ParticleSystemTest);
-			scenes.push(BlurTest);
+//			scenes.push(BlurTest);
+//            scenes.push(MultipleWorldsTest);
+            scenes.push(StarFieldTest);
 			scenes.push(CameraTest);
 //			scenes.push(ParticleExplorer);
 //			scenes.push(MaskTest);

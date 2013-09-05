@@ -82,11 +82,11 @@ package tests {
 			blurMaterial = new Sprite2DBlurMaterial();
 			sprite.setMaterial(blurMaterial);
 
-			blurMaterial2 = new Sprite2DBlurMaterial();
-			sprite2.setMaterial(blurMaterial2);
-
-			blurMaterial3 = new Sprite2DBlurMaterial();
-			sprite3.setMaterial(blurMaterial3);
+//			blurMaterial2 = new Sprite2DBlurMaterial();
+//			sprite2.setMaterial(blurMaterial2);
+//
+//			blurMaterial3 = new Sprite2DBlurMaterial();
+//			sprite3.setMaterial(blurMaterial3);
 		}
 
 		override protected function step(elapsed:Number):void {
@@ -108,8 +108,8 @@ package tests {
 			var blurY:Number = (stage.mouseY / stage.stageHeight) * 20.0;
 
 			blurMaterial.setBlur(blurX, blurY);
-			blurMaterial2.setBlur(blurX, blurY);
-			blurMaterial3.setBlur(blurX, blurY);
+//			blurMaterial2.setBlur(blurX, blurY);
+//			blurMaterial3.setBlur(blurX, blurY);
 		}
 	}
 }
