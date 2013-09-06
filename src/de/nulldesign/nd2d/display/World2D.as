@@ -308,6 +308,10 @@ package de.nulldesign.nd2d.display {
 		 * Put everything to sleep, no drawing and step loop will be fired
 		 */
 		public function sleep():void {
+            if (isSleeping)
+            {
+                return;
+            }
 
 			removeEventListener(Event.ENTER_FRAME, mainLoop);
             isSleeping = true;
