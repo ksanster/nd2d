@@ -50,27 +50,32 @@ package
 
     import tests.BatchTest;
     import tests.BlurTest;
-
     import tests.CameraTest;
-
+    import tests.ColorTransformTest;
+    import tests.Font2DTest;
     import tests.Grid2DTest;
     import tests.MaskTest;
-
     import tests.MassiveSpriteCloudTest;
-
     import tests.MassiveSpritesTest;
     import tests.ParticleExplorer;
+    import tests.ParticleSystemExtTest;
     import tests.ParticleSystemTest;
-
+    import tests.PostProcessingTest;
+    import tests.QuadMaterialTest;
     import tests.SideScrollerTest;
+    import tests.SpeedTest;
+    import tests.Sprite2DCloudParticles;
     import tests.SpriteAnimTest;
+    import tests.SpriteCloudVisibilityTest;
     import tests.SpriteHierarchyTest;
     import tests.SpriteHierarchyTest2;
     import tests.SpriteTest;
     import tests.StarFieldTest;
-
+    import tests.TextFieldTest;
+    import tests.TextureAndRotationOptionsTest;
     import tests.TextureAtlasTest;
     import tests.TextureRendererTest;
+    import tests.Transform3DTest;
 
     [SWF(width = "1000", height = "550", frameRate = "60", backgroundColor = "#000000")]
 	public class Main extends World2D
@@ -103,29 +108,27 @@ package
 //			scenes.push(Font2DTest);
 //			scenes.push(Grid2DTest);
 //			scenes.push(SpriteTest);
-//			scenes.push(SpriteAnimTest);
+			scenes.push(SpriteAnimTest);
 //			scenes.push(StarFieldTest);
 //			scenes.push(ParticleSystemTest);
 //			scenes.push(BlurTest);
-//            scenes.push(MultipleWorldsTest);
-            scenes.push(StarFieldTest);
-			scenes.push(CameraTest);
+//            scenes.push(StarFieldTest);
+//			scenes.push(CameraTest);
 //			scenes.push(ParticleExplorer);
 //			scenes.push(MaskTest);
 //			scenes.push(TextureAtlasTest);
 			scenes.push(BatchTest);
-			scenes.push(TextureRendererTest);
+//			scenes.push(TextureRendererTest);
 //			scenes.push(PostProcessingTest);
-//			scenes.push(ColorTransformTest);
-//			scenes.push(Sprite2DCloudParticles);
-//			scenes.push(SpeedTest);
-//			scenes.push(TextureAndRotationOptionsTest);
-//			scenes.push(Transform3DTest);
-//			scenes.push(TextFieldTest);
-//			scenes.push(QuadMaterialTest);
-//			scenes.push(BlurTest);
-//			scenes.push(SpriteCloudVisibilityTest);
-//			scenes.push(ParticleSystemExtTest); // example on how to extend ND2D and build your own objects
+			scenes.push(ColorTransformTest);
+			scenes.push(Sprite2DCloudParticles);
+			scenes.push(SpeedTest);
+			scenes.push(TextureAndRotationOptionsTest);
+			scenes.push(Transform3DTest);
+			scenes.push(TextFieldTest);
+			scenes.push(QuadMaterialTest);
+			scenes.push(SpriteCloudVisibilityTest);
+			scenes.push(ParticleSystemExtTest); // example on how to extend ND2D and build your own objects
 
 			sceneText = new TextField();
 			sceneText.autoSize = "left";
@@ -142,9 +145,9 @@ package
 			nextDemo();
 
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
-
-			start();
 		}
+
+
 
 		private function keyUp(e:KeyboardEvent):void
 		{
@@ -210,6 +213,8 @@ package
 			{
 				stats.driverInfo = context3D.driverInfo;
 			}
-		}
+
+            start();
+        }
 	}
 }

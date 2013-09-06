@@ -125,7 +125,7 @@ package tests {
 				child.rotation += 1.0 + i;
 			}
 
-			batchNode.x += Math.sin(timeSinceStartInSeconds) * 3.0;
+			batchNode.x += Math.sin(timeSinceStartInMilliseconds) * 3.0 * .001;
 			batchNode.rotation += 1.0;
 		}
 	}

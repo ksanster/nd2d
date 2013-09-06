@@ -34,7 +34,9 @@ package tests {
 	import com.bit101.components.Label;
 	import com.bit101.components.Style;
 
-	import de.nulldesign.nd2d.display.Node2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+
+    import de.nulldesign.nd2d.display.Node2D;
 	import de.nulldesign.nd2d.display.Scene2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.display.Sprite2DBatch;
@@ -97,9 +99,7 @@ package tests {
 
 				tex = Texture2D.textureFromBitmapData(new spriteTexture().bitmapData);
 
-				sheet = new SpriteSheet(tex.bitmapWidth, tex.bitmapHeight, 24, 32, 10);
-				sheet.addAnimation("blah", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
-				sheet.playAnimation("blah");
+				sheet = new SpriteSheet(tex.bitmapWidth, tex.bitmapHeight, 24, 32);
 
 			} else {
 				stage.addChild(comboBox);
@@ -137,11 +137,13 @@ package tests {
 				case 1:
 					spriteCloud = new Sprite2DCloud(maxCloudSize, tex);
 					spriteCloud.setSpriteSheet(sheet);
+                    spriteCloud.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
 					addChild(spriteCloud);
 					break;
 				case 2:
 					spriteBatch = new Sprite2DBatch(tex);
 					spriteBatch.setSpriteSheet(sheet);
+                    spriteBatch.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
 					addChild(spriteBatch);
 					break;
 			}
@@ -153,37 +155,38 @@ package tests {
 
 			if(Main.stats.measuredFPS >= 60.0) {
 
-				var s:Sprite2D;
+				var s:MovieClip2D;
 
 				switch(selectedTestIdx) {
 					case 0:
 						++numChilds;
-						s = new Sprite2D(tex);
-						s.setSpriteSheet(sheet.clone());
-						s.x = stage.stageWidth * Math.random();
+						s = new MovieClip2D(tex, sheet.clone(), 10);
+                        s.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+                        s.playAnimation("blah");
+
+                        s.x = stage.stageWidth * Math.random();
 						s.y = stage.stageHeight * Math.random();
 						addChild(s);
-						s.spriteSheet.playAnimation("blah");
 						break;
 
 					case 1:
 						if(numChilds < maxCloudSize) {
 							++numChilds;
-							s = new Sprite2D();
+							s = new MovieClip2D();
 							s.x = stage.stageWidth * Math.random();
 							s.y = stage.stageHeight * Math.random();
 							spriteCloud.addChild(s);
-							s.spriteSheet.playAnimation("blah");
+							s.playAnimation("blah");
 						}
 						break;
 
 					case 2:
 						++numChilds;
-						s = new Sprite2D();
+						s = new MovieClip2D();
 						s.x = stage.stageWidth * Math.random();
 						s.y = stage.stageHeight * Math.random();
 						spriteBatch.addChild(s);
-						s.spriteSheet.playAnimation("blah");
+						s.playAnimation("blah");
 						break;
 
 					case 3:
@@ -195,11 +198,11 @@ package tests {
 						c.blueMultiplier = Math.random();
 						rndTex.bitmap.colorTransform(rndTex.bitmap.rect, c);
 
-						s = new Sprite2D(rndTex);
-						s.setSpriteSheet(sheet.clone());
+						s = new MovieClip2D(rndTex, sheet.clone(), 10);
 						s.x = stage.stageWidth * Math.random();
 						s.y = stage.stageHeight * Math.random();
-						s.spriteSheet.playAnimation("blah");
+                        s.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+						s.playAnimation("blah");
 						addChild(s);
 						break;
 				}

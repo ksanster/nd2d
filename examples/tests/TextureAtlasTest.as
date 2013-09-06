@@ -77,7 +77,6 @@ package tests {
 			var atlas:TextureAtlas = new TextureAtlas(atlasTex.bitmapWidth, atlasTex.bitmapHeight, new XML(new textureAtlasXMLZwoptex()), new ZwopTexParser(), false);
 
 			s = addChild(new MovieClip2D(atlasTex, atlas, 5)) as MovieClip2D;
-            s.setSpriteSheet(atlas);
 
             s.addAnimationByName("blah", /^[c|b]\d+/, true);
 //            atlas.addAnimation("blah", ["c01", "c02", "c03", "c04", "c05", "c06", "c07", "c08", "c09", "c10", "c11", "c12", "b01", "b02", "b03", "b04", "b05", "b06", "b07", "b08", "b09", "b10", "b11", "b12"], true);

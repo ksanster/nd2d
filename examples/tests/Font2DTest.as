@@ -93,11 +93,11 @@ package tests {
             var n:Node2D;
             for(var i:int = 0; i < font.children.length; i++) {
                 n = font.children[i];
-                n.y = Math.sin(i * 0.5 + timeSinceStartInSeconds * 2.0) * 40.0;
+                n.y = Math.sin(i * 0.5 + timeSinceStartInMilliseconds * 2.0 *.001) * 40.0;
                 n.rotation = n.y;
 
                 if(i == 50) {
-                    n.tint = ColorUtil.mixColors(0xff0000, 0x00ff00, NumberUtil.sin0_1(timeSinceStartInSeconds));
+                    n.tint = ColorUtil.mixColors(0xff0000, 0x00ff00, NumberUtil.sin0_1(timeSinceStartInMilliseconds *.001));
                 }
             }
         }

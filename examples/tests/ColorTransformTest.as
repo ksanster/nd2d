@@ -33,7 +33,9 @@ package tests {
 	import com.bit101.components.HUISlider;
 	import com.bit101.components.Style;
 
-	import de.nulldesign.nd2d.display.Sprite2D;
+    import de.nulldesign.nd2d.display.MovieClip2D;
+
+    import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.display.Sprite2DBatch;
 	import de.nulldesign.nd2d.display.Sprite2DCloud;
 	import de.nulldesign.nd2d.materials.BlendModePresets;
@@ -56,7 +58,7 @@ package tests {
 
         private var spriteCloud:Sprite2DCloud;
         private var spriteBatch:Sprite2DBatch;
-        private var spriteWithMask:Sprite2D;
+        private var spriteWithMask:MovieClip2D;
         private var maskSprite:Sprite2D;
 
         private var panel:Sprite;
@@ -75,19 +77,16 @@ package tests {
 
             var tex:Texture2D = Texture2D.textureFromBitmapData(new spriteTexture().bitmapData);
 
-            var sheet:SpriteSheet = new SpriteSheet(tex.bitmapWidth, tex.bitmapHeight, 24, 32, 10);
-            sheet.addAnimation("blah", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
-            sheet.playAnimation("blah", 0, true);
+            var sheet:SpriteSheet = new SpriteSheet(tex.bitmapWidth, tex.bitmapHeight, 24, 32);
 
             var atlasTex:Texture2D = Texture2D.textureFromBitmapData(new textureAtlasBitmap().bitmapData);
-            var atlas:TextureAtlas = new TextureAtlas(atlasTex.bitmapWidth, atlasTex.bitmapHeight, new XML(new textureAtlasXML()), new TexturePackerParser(), 10, false);
+            var atlas:TextureAtlas = new TextureAtlas(atlasTex.bitmapWidth, atlasTex.bitmapHeight, new XML(new textureAtlasXML()), new TexturePackerParser(), false);
 
-            atlas.addAnimation("blah", ["c01", "c02", "c03", "c04", "c05", "c06", "c07", "c08", "c09", "c10", "c11", "c12", "b01", "b02", "b03", "b04", "b05", "b06", "b07", "b08", "b09", "b10", "b11", "b12"], true);
 
-            atlas.playAnimation("blah");
+            s = addChild(new MovieClip2D(tex, sheet, 10)) as MovieClip2D;
+            s.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            s.playAnimation("blah", 0, true);
 
-            s = addChild(new Sprite2D(tex)) as Sprite2D;
-            s.setSpriteSheet(sheet);
             s.x = 200.0;
             s.y = 200.0;
             s.scaleX = s.scaleY = 1.0;
@@ -97,22 +96,25 @@ package tests {
             spriteCloud.setSpriteSheet(sheet);
             spriteCloud.x = 220.0;
             spriteCloud.y = 200.0;
-            spriteCloud.addChild(new Sprite2D());
+            spriteCloud.addChild(new MovieClip2D());
             spriteCloud.scaleX = spriteCloud.scaleY = 1.0;
             spriteCloud.blendMode = BlendModePresets.BLEND;
-            Sprite2D(spriteCloud.getChildAt(0)).spriteSheet.playAnimation("blah");
+            MovieClip2D(spriteCloud.getChildAt(0)).playAnimation("blah");
 
             spriteBatch = addChild(new Sprite2DBatch(atlasTex)) as Sprite2DBatch;
             spriteBatch.setSpriteSheet(atlas);
+            spriteBatch.addAnimationByName("blah", /^[c|b]\d+/, true);
+
             spriteBatch.x = 240.0;
             spriteBatch.y = 200.0;
             spriteBatch.scaleX = spriteBatch.scaleY = 1.0;
-            spriteBatch.addChild(new Sprite2D());
+            spriteBatch.addChild(new MovieClip2D());
             spriteBatch.blendMode = BlendModePresets.BLEND;
-            Sprite2D(spriteBatch.getChildAt(0)).spriteSheet.playAnimation("blah");
+            MovieClip2D(spriteBatch.getChildAt(0)).playAnimation("blah");
 
-            spriteWithMask = addChild(new Sprite2D(tex)) as Sprite2D;
-            spriteWithMask.setSpriteSheet(sheet);
+            spriteWithMask = addChild(new MovieClip2D(tex, sheet, 10)) as MovieClip2D;
+            spriteWithMask.addAnimation("blah", new <uint>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            spriteWithMask.playAnimation("blah", 0, true);
             spriteWithMask.x = 260.0;
             spriteWithMask.y = 200.0;
             spriteWithMask.blendMode = BlendModePresets.BLEND;
@@ -126,7 +128,7 @@ package tests {
         }
 
         override protected function step(elapsed:Number):void {
-            maskSprite.y = 200.0 + Math.sin(timeSinceStartInSeconds * 2.0) * 20.0;
+            maskSprite.y = 200.0 + Math.sin(timeSinceStartInMilliseconds * 2.0 *.001) * 20.0;
         }
 
         private function removedFromStage(e:Event):void {

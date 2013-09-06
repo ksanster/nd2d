@@ -80,7 +80,9 @@ package de.nulldesign.nd2d.display {
 		protected var stageID:uint;
 		protected var scene:Scene2D;
 		protected var frameRate:uint;
-		protected var isPaused:Boolean = false;
+
+        protected var isPaused:Boolean   = false;
+        protected var isSleeping:Boolean = true;
 		protected var bounds:Rectangle;
 		protected var lastFramesTime:Number = 0.0;
 		protected var enableErrorChecking:Boolean = false;
@@ -90,7 +92,6 @@ package de.nulldesign.nd2d.display {
 		protected var mousePosition:Vector3D = new Vector3D(0.0, 0.0, 0.0);
 		protected var antialiasing:uint = 2;
 		protected var deviceInitialized:Boolean = false;
-		protected var deviceWasLost:Boolean = false;
 
 		protected var statsObject:StatsObject = new StatsObject();
 
@@ -165,7 +166,7 @@ package de.nulldesign.nd2d.display {
 
 			// means we got the Event.CONTEXT3D_CREATE for the second time, the device was lost. reinit everything
 			if(deviceInitialized) {
-				deviceWasLost = true;
+                handleDeviceLost();
 			}
 
 			deviceInitialized = true;
@@ -176,6 +177,12 @@ package de.nulldesign.nd2d.display {
 
 			dispatchEvent(new Event(Event.INIT));
 		}
+
+        protected function handleDeviceLost ():void
+        {
+            ShaderCache.getInstance().handleDeviceLoss();
+            scene.handleDeviceLoss();
+        }
 
 		protected function touchEventHandler(event:TouchEvent):void {
 			if(scene && scene.mouseEnabled && stage && camera) {
@@ -248,29 +255,20 @@ package de.nulldesign.nd2d.display {
 
 		protected function mainLoop(e:Event):void {
 
-			var t:Number = getTimer() * 0.001;
+			var t:Number = getTimer();
 			var elapsed:Number = t - lastFramesTime;
 
-			if(scene && context3D && context3D.driverInfo != "Disposed") {
-				context3D.clear(scene.br, scene.bg, scene.bb, 1.0);
+            context3D.clear(scene.br, scene.bg, scene.bb, 1.0);
 
-				if(!isPaused) {
-					scene.stepNode(elapsed, t);
-				}
+            if(!isPaused) {
+                scene.stepNode(elapsed, t);
+            }
 
-				if(deviceWasLost) {
-					ShaderCache.getInstance().handleDeviceLoss();
-					scene.handleDeviceLoss();
-					deviceWasLost = false;
-				}
+            statsObject.totalDrawCalls = 0;
+            statsObject.totalTris = 0;
 
-				statsObject.totalDrawCalls = 0;
-				statsObject.totalTris = 0;
-
-				scene.drawNode(context3D, camera, false, statsObject);
-
-				context3D.present();
-			}
+            scene.drawNode(context3D, camera, false, statsObject);
+            context3D.present();
 
 			lastFramesTime = t;
 		}
@@ -312,6 +310,7 @@ package de.nulldesign.nd2d.display {
 		public function sleep():void {
 
 			removeEventListener(Event.ENTER_FRAME, mainLoop);
+            isSleeping = true;
 
 			if(context3D) {
 				context3D.clear(scene.br, scene.bg, scene.bb, 1.0);
@@ -323,7 +322,20 @@ package de.nulldesign.nd2d.display {
 		 * wake up from sleep. draw / step loops will start to fire again
 		 */
 		public function wakeUp():void {
-			removeEventListener(Event.ENTER_FRAME, mainLoop);
+            if (!isSleeping)
+            {
+                return;
+            }
+            if (scene == null)
+            {
+                throw new Error("Scene not set");
+            }
+            if (context3D == null || context3D.driverInfo == "Disposed")
+            {
+                throw new Error("Context3D not ready");
+            }
+            isSleeping = false;
+
 			addEventListener(Event.ENTER_FRAME, mainLoop);
 		}
 

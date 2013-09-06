@@ -24,7 +24,7 @@ package de.nulldesign.nd2d.display
 
         protected var animationIndex:uint = 0;
 
-        protected var fps:uint;
+        protected var fpms:Number;
         protected var activeAnimation:SpriteSheetAnimation;
 
         protected var triggerEventOnLastFrame:Boolean = false;
@@ -42,9 +42,10 @@ package de.nulldesign.nd2d.display
             if (spriteSheet == null && value != null && value.spriteSheet != null)
             {
                 setSpriteSheet(value.spriteSheet.clone());
-                for (var name:String in animationMap)
+                const batchAnimations:Object = value.animationMap;
+                for (var name:String in batchAnimations)
                 {
-                    animationMap[name] = value.animationMap[name];
+                    animationMap[name] = batchAnimations[name];
                 }
             }
         }
@@ -53,7 +54,7 @@ package de.nulldesign.nd2d.display
         {
             super(textureObject);
             this.spriteSheet = spriteSheet;
-            this.fps = fps;
+            this.fpms = fps * .001;
         }
 
         /**
@@ -77,7 +78,7 @@ package de.nulldesign.nd2d.display
             ctime = timeSinceStartInSeconds;
 
             // Update the timer part, to get time based animation
-            interp += fps * (ctime - otime);
+            interp += fpms * (ctime - otime);
             if(interp >= 1.0) {
                 animationIndex++;
                 interp = 0;

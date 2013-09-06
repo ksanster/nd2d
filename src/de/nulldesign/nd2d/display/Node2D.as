@@ -183,7 +183,7 @@ package de.nulldesign.nd2d.display {
 
 		public var boundingSphereRadius:Number;
 
-		protected var timeSinceStartInSeconds:Number = 0.0;
+		protected var timeSinceStartInMilliseconds:Number = 0.0;
 
 		protected var camera:Camera2D;
 
@@ -703,14 +703,14 @@ package de.nulldesign.nd2d.display {
 		/**
 		 * @private
 		 */
-		internal function stepNode(elapsed:Number, timeSinceStartInSeconds:Number):void {
+		internal function stepNode(elapsed:Number, timeSinceStartInMilliseconds:Number):void {
 
-			this.timeSinceStartInSeconds = timeSinceStartInSeconds;
+			this.timeSinceStartInMilliseconds = timeSinceStartInMilliseconds;
 
 			step(elapsed);
 
 			for each(var child:Node2D in children) {
-				child.stepNode(elapsed, timeSinceStartInSeconds);
+				child.stepNode(elapsed, timeSinceStartInMilliseconds);
 			}
 		}
 
