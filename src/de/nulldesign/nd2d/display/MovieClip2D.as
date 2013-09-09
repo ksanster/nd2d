@@ -53,7 +53,7 @@ package de.nulldesign.nd2d.display
         public function MovieClip2D (textureObject:Texture2D = null, spriteSheet:ASpriteSheetBase = null, fps:uint = 0)
         {
             super(textureObject);
-            this.spriteSheet = spriteSheet;
+            this.spriteSheet = spriteSheet != null ? spriteSheet.clone() : null;
             this.fpms = fps * .001;
         }
 

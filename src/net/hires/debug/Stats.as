@@ -84,7 +84,7 @@ package net.hires.debug {
             xml = <xml>
                 <fps>FPS:</fps>
                 <ms>MS:</ms>
-                <nd2d>TIME:</nd2d>
+                <frametime>FRAME:</frametime>
                 <mem>MEM:</mem>
                 <memMax>MAX:</memMax>
                 <drawCalls>CALLS:</drawCalls>
@@ -95,7 +95,7 @@ package net.hires.debug {
             style.setStyle("xml", {fontSize: '9px', fontFamily: '_sans', leading: '-2px'});
             style.setStyle("fps", {color: hex2css(theme.fps)});
             style.setStyle("ms", {color: hex2css(theme.ms)});
-            style.setStyle("nd2d", {color: hex2css(theme.ms)});
+            style.setStyle("frametime", {color: hex2css(theme.ms)});
             style.setStyle("mem", {color: hex2css(theme.mem)});
             style.setStyle("memMax", {color: hex2css(theme.memmax)});
             style.setStyle("drawCalls", {color: hex2css(theme.drawcalls)});
@@ -145,7 +145,7 @@ package net.hires.debug {
             //removeEventListener(Event.ENTER_FRAME, update);
         }
 
-        public function update(drawCalls:int, numTris:int, nd2dFrameTime:Number = 0):void {
+        public function update(drawCalls:int, numTris:int, elapsed:Number):void {
             timer = getTimer();
 
             if(timer - 1000 > ms_prev) {
@@ -178,7 +178,7 @@ package net.hires.debug {
             fps++;
 
             xml.ms = "MS: " + (timer - ms);
-            xml.nd2d = "TIME: " + nd2dFrameTime;
+            xml.frametime = "FRAME: " + elapsed;
             ms = timer;
 
             if(driverInfoToggle) {

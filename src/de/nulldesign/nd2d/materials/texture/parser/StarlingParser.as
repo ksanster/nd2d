@@ -49,10 +49,10 @@ package de.nulldesign.nd2d.materials.texture.parser
                 width   = parseFloat(String(subTexture.@[WIDTH]));
                 height  = parseFloat(String(subTexture.@[HEIGHT]));
 
-                frameX  = parseFloat(String(subTexture.@[FRAME_X_COORD]));
-                frameY  = parseFloat(String(subTexture.@[FRAME_Y_COORD]));
-                frameWidth  = parseFloat(String(subTexture.@[FRAME_WIDTH]));
-                frameHeight = parseFloat(String(subTexture.@[FRAME_HEIGHT]));
+                frameX  = parseFloat(String(subTexture.@[FRAME_X_COORD]))    || 0;
+                frameY  = parseFloat(String(subTexture.@[FRAME_Y_COORD]))    || 0;
+                frameWidth  = parseFloat(String(subTexture.@[FRAME_WIDTH]))  || 0;
+                frameHeight = parseFloat(String(subTexture.@[FRAME_HEIGHT])) || 0;
 
                 frameNameToIndex[name] = index++;
                 frames[frames.length] = new Rectangle(x, y, width, height);
