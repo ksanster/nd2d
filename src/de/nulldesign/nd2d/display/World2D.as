@@ -270,6 +270,8 @@ package de.nulldesign.nd2d.display {
             scene.drawNode(context3D, camera, false, statsObject);
             context3D.present();
 
+            statsObject.elapsed = getTimer() - t;
+
 			lastFramesTime = t;
 		}
 
