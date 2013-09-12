@@ -159,12 +159,19 @@ package de.nulldesign.nd2d.materials.texture {
         public function getSequenceByName (frameNamePattern:*):Vector.<uint>
         {
             var keyFramesIndices:Vector.<uint> = new <uint>[];
+            var match:Vector.<KeyFrame> = new <KeyFrame>[];
+
             for (var frameName:String in frameNameToIndex)
             {
                 if (frameName.match(frameNamePattern))
                 {
-                    keyFramesIndices[keyFramesIndices.length] = frameNameToIndex[frameName];
+                    match[match.length] = new KeyFrame(frameName, frameNameToIndex[frameName]);
                 }
+            }
+            match.sort(compareFrames);
+            for each (var keyFrame:KeyFrame in match)
+            {
+                keyFramesIndices[keyFramesIndices.length] = keyFrame.index;
             }
             return keyFramesIndices;
         }
@@ -176,5 +183,30 @@ package de.nulldesign.nd2d.materials.texture {
 			frameNameToIndex = null;
 			uvRects = null;
 		}
+
+        protected function compareFrames (frame1:KeyFrame, frame2:KeyFrame):int
+        {
+            if (frame1.name < frame2.name)
+            {
+                return -1;
+            }
+            else if (frame1.name > frame2.name)
+            {
+                return 1;
+            }
+            return 0;
+        }
 	}
+}
+
+internal class KeyFrame
+{
+    public var name:String;
+    public var index:uint;
+
+    public function KeyFrame(name:String, index:uint)
+    {
+        this.name  = name;
+        this.index = index;
+    }
 }

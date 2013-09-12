@@ -57,7 +57,8 @@ package de.nulldesign.nd2d.materials.texture.parser
                 frameNameToIndex[name] = index++;
                 frames[frames.length] = new Rectangle(x, y, width, height);
 
-                offsets[offsets.length] = new Point(frameX, frameY);
+                offsets[offsets.length] = new Point(0, 0);
+//                offsets[offsets.length] = new Point(- frameX, - frameY);
             }
         }
     }
