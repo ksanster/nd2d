@@ -7,8 +7,9 @@
  */
 package de.nulldesign.nd2d.materials.texture.parser
 {
+    import de.nulldesign.nd2d.geom.FrameRectangle;
+
     import flash.geom.Point;
-    import flash.geom.Rectangle;
 
     public class StarlingParser extends ATextureAtlasParser
     {
@@ -55,7 +56,7 @@ package de.nulldesign.nd2d.materials.texture.parser
                 frameHeight = parseFloat(String(subTexture.@[FRAME_HEIGHT])) || 0;
 
                 frameNameToIndex[name] = index++;
-                frames[frames.length] = new Rectangle(x, y, width, height);
+                frames[frames.length] = new FrameRectangle(x, y, width, height);
 
                 offsets[offsets.length] = new Point(0, 0);
 //                offsets[offsets.length] = new Point(- frameX, - frameY);

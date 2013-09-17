@@ -102,12 +102,12 @@ package de.nulldesign.nd2d.display {
 				var curChar:String;
 				var frame:int;
 				var childIdx:uint = 0;
-				var startX:Number = spriteSheet.spriteWidth >> 1;
+				var startX:Number = spriteSheet.spriteHalfWidth;
 
 				switch(textAlign) {
 
 					case TextFieldAutoSize.CENTER:
-						startX -= (text_length * spriteSheet.spriteWidth) >> 1;
+						startX -= text_length * spriteSheet.spriteHalfWidth;
 						break;
 
 					case TextFieldAutoSize.RIGHT:

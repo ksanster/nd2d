@@ -201,7 +201,7 @@ package
 		override protected function mainLoop(e:Event):void
 		{
 			super.mainLoop(e);
-			stats.update(statsObject.totalDrawCalls, statsObject.totalTris);
+			stats.update(statsObject.totalDrawCalls, statsObject.totalTris, statsObject.elapsed);
 		}
 
 		override protected function context3DCreated(e:Event):void

@@ -65,6 +65,9 @@ package de.nulldesign.nd2d.materials.texture {
 		public var bitmapWidth:Number;
 		public var bitmapHeight:Number;
 
+		public var textureHalfWidth:Number;
+		public var textureHalfHeight:Number;
+
 		public var textureWidth:Number;
 		public var textureHeight:Number;
 
@@ -93,6 +96,8 @@ package de.nulldesign.nd2d.materials.texture {
 				var dimensions:Point = TextureHelper.getTextureDimensionsFromBitmap(bitmap);
 				t.textureWidth = dimensions.x;
 				t.textureHeight = dimensions.y;
+                t.textureHalfWidth = dimensions.x * .5;
+                t.textureHalfHeight = dimensions.y * .5;
 				t.hasPremultipliedAlpha = true
 			}
 
@@ -111,7 +116,9 @@ package de.nulldesign.nd2d.materials.texture {
 				t.compressedBitmap = atf;
 				t.textureWidth = t.bitmapWidth = w;
 				t.textureHeight = t.bitmapHeight = h;
-				t.hasPremultipliedAlpha = false;
+                t.textureHalfWidth = w * .5;
+                t.textureHalfHeight = h * .5;
+                t.hasPremultipliedAlpha = false;
 			}
 
 			return t;
@@ -123,7 +130,9 @@ package de.nulldesign.nd2d.materials.texture {
 			var t:Texture2D = new Texture2D();
 			t.textureWidth = size.x;
 			t.textureHeight = size.y;
-			t.bitmapWidth = size.x;
+            t.textureHalfWidth = size.x * .5;
+            t.textureHalfHeight = size.y * .5;
+            t.bitmapWidth = size.x;
 			t.bitmapHeight = size.y;
 
 			return t;

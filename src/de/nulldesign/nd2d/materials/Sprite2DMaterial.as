@@ -31,7 +31,8 @@
 package de.nulldesign.nd2d.materials {
 
 	import de.nulldesign.nd2d.geom.Face;
-	import de.nulldesign.nd2d.geom.UV;
+    import de.nulldesign.nd2d.geom.FrameRectangle;
+    import de.nulldesign.nd2d.geom.UV;
 	import de.nulldesign.nd2d.geom.Vertex;
 	import de.nulldesign.nd2d.materials.shader.ShaderCache;
 	import de.nulldesign.nd2d.materials.texture.ASpriteSheetBase;
@@ -47,7 +48,9 @@ package de.nulldesign.nd2d.materials {
 
 	public class Sprite2DMaterial extends AMaterial {
 
-		protected const VERTEX_SHADER:String = "m44 op, va0, vc0   \n" + // vertex * clipspace
+        protected static const DEFAULT_UV_OFFSET:FrameRectangle = new FrameRectangle(0.0, 0.0, 1.0, 1.0);
+
+        protected const VERTEX_SHADER:String = "m44 op, va0, vc0   \n" + // vertex * clipspace
 				"mov vt0, va1  \n" + // save uv in temp register
 				"mul vt0.xy, vt0.xy, vc4.zw   \n" + // mult with uv-scale
 				"add vt0.xy, vt0.xy, vc4.xy   \n" + // add uv offset
@@ -93,24 +96,25 @@ package de.nulldesign.nd2d.materials {
 
 			super.prepareForRender(context);
 
-			var uvOffsetAndScale:Rectangle = new Rectangle(0.0, 0.0, 1.0, 1.0);
+            var offset:Point;
+			var uvOffsetAndScale:FrameRectangle = DEFAULT_UV_OFFSET;
 			var textureObj:Texture = texture.getTexture(context);
 
 			if(spriteSheet) {
 
 				uvOffsetAndScale = spriteSheet.getUVRectForFrame(texture.textureWidth, texture.textureHeight);
 
-				var offset:Point = spriteSheet.getOffsetForFrame();
+				offset = spriteSheet.getOffsetForFrame();
 
 				clipSpaceMatrix.identity();
-				clipSpaceMatrix.appendScale(spriteSheet.spriteWidth >> 1, spriteSheet.spriteHeight >> 1, 1.0);
+				clipSpaceMatrix.appendScale(spriteSheet.spriteHalfWidth, spriteSheet.spriteHalfHeight, 1.0);
 				clipSpaceMatrix.appendTranslation(offset.x, offset.y, 0.0);
 				clipSpaceMatrix.append(modelMatrix);
 				clipSpaceMatrix.append(viewProjectionMatrix);
 
 			} else {
 				clipSpaceMatrix.identity();
-				clipSpaceMatrix.appendScale(texture.textureWidth >> 1, texture.textureHeight >> 1, 1.0);
+				clipSpaceMatrix.appendScale(texture.textureHalfWidth, texture.textureHalfHeight, 1.0);
 				clipSpaceMatrix.append(modelMatrix);
 				clipSpaceMatrix.append(viewProjectionMatrix);
 			}

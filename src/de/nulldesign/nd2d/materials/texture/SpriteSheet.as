@@ -30,6 +30,8 @@
 
 package de.nulldesign.nd2d.materials.texture {
 
+    import de.nulldesign.nd2d.geom.FrameRectangle;
+
     import flash.geom.Point;
     import flash.geom.Rectangle;
 
@@ -49,33 +51,32 @@ package de.nulldesign.nd2d.materials.texture {
 		public function SpriteSheet(sheetWidth:Number, sheetHeight:Number, spriteWidth:Number, spriteHeight:Number, spritesPackedWithoutSpace:Boolean = false) {
 			this.spritesPackedWithoutSpace = spritesPackedWithoutSpace;
 
-			_spriteWidth = spriteWidth;
-			_spriteHeight = spriteHeight;
-			_sheetWidth = sheetWidth;
-			_sheetHeight = sheetHeight;
+			spWidth = spriteWidth;
+			spHeight = spriteHeight;
+			shWidth = sheetWidth;
+			shHeight = sheetHeight;
 
 			generateSheet();
 		}
 
 		private function generateSheet():void {
-			var numSheetsPerRow:int = Math.round(_sheetWidth / spriteWidth);
-			var numRows:int = Math.round(_sheetHeight / spriteHeight);
+			var numSheetsPerRow:int = Math.round(shWidth / spriteWidth);
+			var numRows:int = Math.round(shHeight / spriteHeight);
 			var numSheets:int = numSheetsPerRow * numRows;
 			var rowIdx:uint;
 			var colIdx:uint;
 
-			uvRects = new Vector.<Rectangle>(numSheets, true);
-			frames = new Vector.<Rectangle>();
-			uvRects = new Vector.<Rectangle>(numSheets, true);
+			frames = new Vector.<FrameRectangle>();
+			uvRects = new Vector.<FrameRectangle>(numSheets, true);
 
 			for(var i:int = 0; i < numSheets; i++) {
 				rowIdx = i % numSheetsPerRow;
 				colIdx = Math.floor(i / numSheetsPerRow);
 
-				frames.push(new Rectangle((spriteWidth * rowIdx),
-						(spriteHeight * colIdx),
-						_spriteWidth,
-						_spriteHeight));
+				frames[frames.length] = new FrameRectangle((spriteWidth * rowIdx),
+                                                          (spriteHeight * colIdx),
+                                                          spWidth,
+                                                          spHeight);
 			}
 
 			frame = 0;
@@ -87,7 +88,7 @@ package de.nulldesign.nd2d.materials.texture {
 
 		override public function clone():ASpriteSheetBase {
 
-			var s:SpriteSheet = new SpriteSheet(_sheetWidth, _sheetHeight, _spriteWidth, _spriteHeight, spritesPackedWithoutSpace);
+			var s:SpriteSheet = new SpriteSheet(shWidth, shHeight, spWidth, spHeight, spritesPackedWithoutSpace);
 			s.frame = frame;
 
 			return s;

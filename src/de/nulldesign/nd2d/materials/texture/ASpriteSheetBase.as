@@ -30,17 +30,18 @@
 
 package de.nulldesign.nd2d.materials.texture {
 
+    import de.nulldesign.nd2d.geom.FrameRectangle;
+
     import flash.events.EventDispatcher;
     import flash.geom.Point;
-    import flash.geom.Rectangle;
     import flash.utils.Dictionary;
 
     public class ASpriteSheetBase extends EventDispatcher {
 
-		protected var frames:Vector.<Rectangle> = new Vector.<Rectangle>();
+		protected var frames:Vector.<FrameRectangle> = new Vector.<FrameRectangle>();
+		protected var uvRects:Vector.<FrameRectangle>;
 		protected var offsets:Vector.<Point> = new Vector.<Point>();
 		protected var frameNameToIndex:Dictionary = new Dictionary();
-		protected var uvRects:Vector.<Rectangle>;
 
 		protected var spritesPackedWithoutSpace:Boolean;
 
@@ -50,17 +51,29 @@ package de.nulldesign.nd2d.materials.texture {
 		public var frameUpdated:Boolean = true;
 
 
-		protected var _spriteWidth:Number;
-		protected var _spriteHeight:Number;
-		protected var _sheetWidth:Number;
-		protected var _sheetHeight:Number;
+		protected var spWidth:Number;
+		protected var spHeight:Number;
+
+        protected var spHalfWidth:Number;
+        protected var spHalfHeight:Number;
+
+		protected var shWidth:Number;
+		protected var shHeight:Number;
 
 		public function get spriteWidth():Number {
-			return _spriteWidth;
+			return spWidth;
 		}
 
 		public function get spriteHeight():Number {
-			return _spriteHeight;
+			return spHeight;
+		}
+
+		public function get spriteHalfWidth():Number {
+			return spHalfWidth;
+		}
+
+		public function get spriteHalfHeight():Number {
+			return spHalfHeight;
 		}
 
 		protected var _frame:uint = int.MAX_VALUE;
@@ -70,13 +83,19 @@ package de.nulldesign.nd2d.materials.texture {
 		}
 
 		public function set frame(value:uint):void {
-			if(frame != value) {
+			var config:FrameRectangle;
+            if(frame != value)
+            {
 				_frame = value;
 				frameUpdated = true;
 
-				if(frames.length - 1 >= _frame) {
-					_spriteWidth = frames[_frame].width;
-					_spriteHeight = frames[_frame].height;
+				if(frames.length - 1 >= _frame)
+                {
+                    config       = frames[_frame];
+					spWidth      = config.width;
+					spHeight     = config.height;
+                    spHalfWidth  = config.halfWidth;
+                    spHalfHeight = config.halfHeight;
 				}
 			}
 		}
@@ -105,7 +124,8 @@ package de.nulldesign.nd2d.materials.texture {
 		 * @param frameIdx
 		 * @return
 		 */
-		public function getDimensionForFrame(frameIdx:int = -1):Rectangle {
+		public function getDimensionForFrame(frameIdx:int = -1):FrameRectangle
+        {
 			return frames[frameIdx > -1 ? frameIdx : frame];
 		}
 
@@ -126,17 +146,17 @@ package de.nulldesign.nd2d.materials.texture {
 			frame = getIndexForFrame(value);
 		}
 
-		public function getUVRectForFrame(textureWidth:Number, textureHeight:Number):Rectangle {
+		public function getUVRectForFrame(textureWidth:Number, textureHeight:Number):FrameRectangle
+        {
 
 			if(uvRects[frame]) {
 				return uvRects[frame];
 			}
 
-			var rect:Rectangle = frames[frame].clone();
-			var texturePixelOffset:Point = new Point((textureWidth - _sheetWidth) / 2.0, (textureHeight - _sheetHeight) / 2.0);
+			var rect:FrameRectangle = frames[frame].clone();
 
-			rect.x += texturePixelOffset.x;
-			rect.y += texturePixelOffset.y;
+			rect.x += (textureWidth - shWidth) * .5;
+			rect.y += (textureHeight - shHeight) * .5;
 
 			if(spritesPackedWithoutSpace) {
 				rect.x += 0.5;

@@ -30,9 +30,8 @@
 
 package de.nulldesign.nd2d.materials.texture {
 
+    import de.nulldesign.nd2d.geom.FrameRectangle;
     import de.nulldesign.nd2d.materials.texture.parser.ATextureAtlasParser;
-
-    import flash.geom.Rectangle;
 
     public class TextureAtlas extends ASpriteSheetBase {
 
@@ -47,8 +46,8 @@ package de.nulldesign.nd2d.materials.texture {
 		 */
 		public function TextureAtlas(sheetWidth:Number, sheetHeight:Number, xmlData:XML, parser:ATextureAtlasParser,spritesPackedWithoutSpace:Boolean = false) {
 			this.spritesPackedWithoutSpace = spritesPackedWithoutSpace;
-			this._sheetWidth = sheetWidth;
-			this._sheetHeight = sheetHeight;
+			this.shWidth = sheetWidth;
+			this.shHeight = sheetHeight;
 
 			if(xmlData) {
 				parse(xmlData, parser);
@@ -67,13 +66,13 @@ package de.nulldesign.nd2d.materials.texture {
 			frames = parser.frames;
 			offsets = parser.offsets;
 
-			uvRects = new Vector.<Rectangle>(frames.length, true);
+			uvRects = new Vector.<FrameRectangle>(frames.length, true);
 			frame = 0;
 		}
 
 		override public function clone():ASpriteSheetBase {
 
-			var t:TextureAtlas = new TextureAtlas(_sheetWidth, _sheetHeight, null, null, spritesPackedWithoutSpace);
+			var t:TextureAtlas = new TextureAtlas(shWidth, shHeight, null, null, spritesPackedWithoutSpace);
 
 			t.frames = frames;
 			t.offsets = offsets;

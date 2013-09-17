@@ -31,6 +31,7 @@
 package de.nulldesign.nd2d.display {
 
     import de.nulldesign.nd2d.geom.Face;
+    import de.nulldesign.nd2d.geom.FrameRectangle;
     import de.nulldesign.nd2d.geom.UV;
     import de.nulldesign.nd2d.geom.Vertex;
     import de.nulldesign.nd2d.materials.shader.Shader2D;
@@ -67,6 +68,7 @@ package de.nulldesign.nd2d.display {
 	 */
 	public class Sprite2DCloud extends ContainerNode2D
     {
+        protected static const DEFAULT_UV_RECTANGLE:FrameRectangle = new FrameRectangle(0.0, 0.0, 1.0, 1.0)
 
 		protected var faceList:Vector.<Face>;
 
@@ -269,7 +271,7 @@ package de.nulldesign.nd2d.display {
 			var gOffset:Number;
 			var bOffset:Number;
 			var aOffset:Number;
-			var uvOffsetAndScale:Rectangle = new Rectangle(0.0, 0.0, 1.0, 1.0);
+			var uvOffsetAndScale:FrameRectangle = DEFAULT_UV_RECTANGLE;
 			var rot:Number;
 			var cr:Number;
 			var sr:Number;
@@ -285,8 +287,8 @@ package de.nulldesign.nd2d.display {
 			var atlasOffset:Point = new Point();
 			const offsetFactor:Number = 1.0 / 255.0;
 			var isChildInvalidatedColors : Boolean = false;
-			const halfTextureWidth : Number = texture.textureWidth >> 1;
-			const halfTextureHeight : Number = texture.textureHeight >> 1;
+//			const halfTextureWidth : Number = texture.textureWidth >> 1;
+//			const halfTextureHeight : Number = texture.textureHeight >> 1;
 
     		if(invalidateColors) {
 				updateColors();
@@ -361,12 +363,12 @@ package de.nulldesign.nd2d.display {
 
 				if(child.invalidateMatrix) {
 					if(spriteSheet) {
-						sx = child.scaleX * (spriteSheet.spriteWidth >> 1);
-						sy = child.scaleY * (spriteSheet.spriteHeight >> 1);
+						sx = child.scaleX * spriteSheet.spriteHalfWidth;
+						sy = child.scaleY * spriteSheet.spriteHalfHeight;
 						atlasOffset = spriteSheet.getOffsetForFrame();
 					} else {
-						sx = child.scaleX * halfTextureWidth;
-						sy = child.scaleY * halfTextureHeight;
+						sx = child.scaleX * texture.textureHalfWidth;
+						sy = child.scaleY * texture.textureHalfHeight;
 						atlasOffset.x = 0.0;
 						atlasOffset.y = 0.0;
 					}

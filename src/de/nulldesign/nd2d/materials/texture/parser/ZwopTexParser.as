@@ -30,8 +30,9 @@
 
 package de.nulldesign.nd2d.materials.texture.parser {
 
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import de.nulldesign.nd2d.geom.FrameRectangle;
+
+    import flash.geom.Point;
 
 	public class ZwopTexParser extends ATextureAtlasParser {
 
@@ -91,7 +92,7 @@ package de.nulldesign.nd2d.materials.texture.parser {
 									{
 										if(type == "string") {
 											array = data.split(/[^0-9-]+/);
-											frames.push(new Rectangle(array[1], array[2], array[3], array[4]));
+                                            frames[frames.length] = new FrameRectangle(array[1], array[2], array[3], array[4]);
 										} else {
 											throw new Error("Error parsing descriptor format");
 										}

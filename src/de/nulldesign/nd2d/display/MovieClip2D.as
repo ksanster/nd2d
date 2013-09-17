@@ -8,13 +8,13 @@
 package de.nulldesign.nd2d.display
 {
     import de.nulldesign.nd2d.events.SpriteSheetAnimationEvent;
+    import de.nulldesign.nd2d.geom.FrameRectangle;
     import de.nulldesign.nd2d.materials.BlendModePresets;
     import de.nulldesign.nd2d.materials.texture.ASpriteSheetBase;
     import de.nulldesign.nd2d.materials.texture.SpriteSheetAnimation;
     import de.nulldesign.nd2d.materials.texture.Texture2D;
 
     import flash.display3D.Context3D;
-    import flash.geom.Rectangle;
     import flash.utils.Dictionary;
 
     [Event(name="animationFinished", type="de.nulldesign.nd2d.events.SpriteSheetAnimationEvent")]
@@ -120,7 +120,7 @@ package de.nulldesign.nd2d.display
                 var yCoord:Number = _mouseY + halfHeight;
 
                 if(spriteSheet) {
-                    var rect:Rectangle = spriteSheet.getDimensionForFrame();
+                    var rect:FrameRectangle = spriteSheet.getDimensionForFrame();
                     xCoord += rect.x;
                     yCoord += rect.y;
                 }

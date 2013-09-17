@@ -105,8 +105,8 @@ package de.nulldesign.nd2d.display {
 
 			material = new ParticleSystemMaterial(tex, burst);
 
-			texW = tex.textureWidth / 2.0;
-			texH = tex.textureHeight / 2.0;
+			texW = tex.textureHalfWidth;
+			texH = tex.textureHalfHeight;
 
 			particles = new Vector.<Particle>(maxCapacity, true);
 			faceList = new Vector.<Face>(maxCapacity * 2, true);

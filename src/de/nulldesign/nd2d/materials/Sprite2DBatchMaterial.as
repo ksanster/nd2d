@@ -34,7 +34,8 @@ package de.nulldesign.nd2d.materials {
     import de.nulldesign.nd2d.display.Node2D;
 	import de.nulldesign.nd2d.display.Sprite2D;
 	import de.nulldesign.nd2d.geom.Face;
-	import de.nulldesign.nd2d.geom.UV;
+    import de.nulldesign.nd2d.geom.FrameRectangle;
+    import de.nulldesign.nd2d.geom.UV;
 	import de.nulldesign.nd2d.geom.Vertex;
 	import de.nulldesign.nd2d.materials.shader.ShaderCache;
 
@@ -189,7 +190,7 @@ package de.nulldesign.nd2d.materials {
 						setupShader(context);
 					}
 
-					var uvOffsetAndScale:Rectangle = new Rectangle(0.0, 0.0, 1.0, 1.0);
+					var uvOffsetAndScale:FrameRectangle = DEFAULT_UV_OFFSET;
 
 					if(spriteSheet) {
 
@@ -198,14 +199,14 @@ package de.nulldesign.nd2d.materials {
 						var offset:Point = child.spriteSheet.getOffsetForFrame();
 
 						clipSpaceMatrix.identity();
-						clipSpaceMatrix.appendScale(child.spriteSheet.spriteWidth >> 1, child.spriteSheet.spriteHeight >> 1, 1.0);
+						clipSpaceMatrix.appendScale(child.spriteSheet.spriteHalfWidth, child.spriteSheet.spriteHalfHeight, 1.0);
 						clipSpaceMatrix.appendTranslation(offset.x, offset.y, 0.0);
 						clipSpaceMatrix.append(child.worldModelMatrix);
 						clipSpaceMatrix.append(viewProjectionMatrix);
 
 					} else {
 						clipSpaceMatrix.identity();
-						clipSpaceMatrix.appendScale(texture.textureWidth >> 1, texture.textureHeight >> 1, 1.0);
+						clipSpaceMatrix.appendScale(texture.textureHalfWidth, texture.textureHalfHeight, 1.0);
 						clipSpaceMatrix.append(child.worldModelMatrix);
 						clipSpaceMatrix.append(viewProjectionMatrix);
 					}

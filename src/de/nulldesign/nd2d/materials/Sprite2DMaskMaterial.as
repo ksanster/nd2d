@@ -31,7 +31,8 @@
 package de.nulldesign.nd2d.materials {
 
 	import de.nulldesign.nd2d.geom.Face;
-	import de.nulldesign.nd2d.geom.UV;
+    import de.nulldesign.nd2d.geom.FrameRectangle;
+    import de.nulldesign.nd2d.geom.UV;
 	import de.nulldesign.nd2d.geom.Vertex;
 	import de.nulldesign.nd2d.materials.shader.ShaderCache;
 	import de.nulldesign.nd2d.materials.texture.Texture2D;
@@ -95,7 +96,7 @@ package de.nulldesign.nd2d.materials {
 			context.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2); // vertex
 			context.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2); // uv
 
-			var uvOffsetAndScale:Rectangle = new Rectangle(0.0, 0.0, 1.0, 1.0);
+			var uvOffsetAndScale:FrameRectangle = DEFAULT_UV_OFFSET;
 
 			if(spriteSheet) {
 
@@ -104,14 +105,14 @@ package de.nulldesign.nd2d.materials {
 				var offset:Point = spriteSheet.getOffsetForFrame();
 
 				clipSpaceMatrix.identity();
-				clipSpaceMatrix.appendScale(spriteSheet.spriteWidth >> 1, spriteSheet.spriteHeight >> 1, 1.0);
+				clipSpaceMatrix.appendScale(spriteSheet.spriteHalfWidth, spriteSheet.spriteHalfHeight, 1.0);
 				clipSpaceMatrix.appendTranslation(offset.x, offset.y, 0.0);
 				clipSpaceMatrix.append(modelMatrix);
 				clipSpaceMatrix.append(viewProjectionMatrix);
 
 			} else {
 				clipSpaceMatrix.identity();
-				clipSpaceMatrix.appendScale(texture.textureWidth >> 1, texture.textureHeight >> 1, 1.0);
+				clipSpaceMatrix.appendScale(texture.textureHalfWidth, texture.textureHalfHeight, 1.0);
 				clipSpaceMatrix.append(modelMatrix);
 				clipSpaceMatrix.append(viewProjectionMatrix);
 			}
@@ -124,8 +125,8 @@ package de.nulldesign.nd2d.materials {
 			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, clipSpaceMatrix, true);
 			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 4, maskClipSpaceMatrix, true);
 
-			programConstVector[0] = maskTexture.textureWidth >> 1;
-			programConstVector[1] = maskTexture.textureHeight >> 1;
+			programConstVector[0] = maskTexture.textureHalfWidth;
+			programConstVector[1] = maskTexture.textureHalfHeight;
 			programConstVector[2] = maskTexture.textureWidth;
 			programConstVector[3] = maskTexture.textureHeight;
 

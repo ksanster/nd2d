@@ -30,13 +30,14 @@
 
 package de.nulldesign.nd2d.materials.texture.parser {
 
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
+    import de.nulldesign.nd2d.geom.FrameRectangle;
 
-	public class ATextureAtlasParser {
+    import flash.geom.Point;
+    import flash.utils.Dictionary;
 
-		protected var framesList:Vector.<Rectangle> = new Vector.<Rectangle>();
+    public class ATextureAtlasParser {
+
+		protected var framesList:Vector.<FrameRectangle> = new Vector.<FrameRectangle>();
 		protected var offsetList:Vector.<Point> = new Vector.<Point>();
 		protected var frameNameToIndexMap:Dictionary = new Dictionary();
 
@@ -77,7 +78,7 @@ package de.nulldesign.nd2d.materials.texture.parser {
 			return null;
 		}
 
-		public function get frames():Vector.<Rectangle> {
+		public function get frames():Vector.<FrameRectangle> {
 			return framesList;
 		}
 
