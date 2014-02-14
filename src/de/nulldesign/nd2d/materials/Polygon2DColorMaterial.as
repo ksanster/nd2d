@@ -4,14 +4,18 @@ package de.nulldesign.nd2d.materials {
     import de.nulldesign.nd2d.geom.UV;
     import de.nulldesign.nd2d.geom.Vertex;
     import de.nulldesign.nd2d.materials.shader.ShaderCache;
-    import de.nulldesign.nd2d.utils.ColorUtil;
-    import flash.geom.Vector3D;
 
     import flash.display3D.Context3D;
     import flash.display3D.Context3DProgramType;
     import flash.display3D.Context3DVertexBufferFormat;
+    import flash.geom.Vector3D;
 
-    public class Quad2DColorMaterial extends AMaterial {
+    /**
+     * ...
+     * @author Mike Almond - https://github.com/mikedotalmond
+     */
+
+    public class Polygon2DColorMaterial extends APolygon2DMaterial {
 
         private const VERTEX_SHADER:String =
                 "m44 op, va0, vc0 \n" + // vertex * clipspace
@@ -20,16 +24,24 @@ package de.nulldesign.nd2d.materials {
         private const FRAGMENT_SHADER:String =
                 "mov oc, v0 \n"; // mult with colorOffset
 
-        private const FRAGMENT_SHADER_NO_TINT_ALPHA:String = "tex oc, v0, fs0 <TEXTURE_SAMPLING_OPTIONS>\n";
+        protected var _colour:uint = 0;
 
-        public function Quad2DColorMaterial() {
-            drawCalls = 1;
+        public function Polygon2DColorMaterial(colour:uint) {
+            super();
+            this.color = colour;
+        }
+
+        override protected function generateBufferData(context:Context3D, faceList:Vector.<Face>):void {
+            const isInit:Boolean = mVertexBuffer == null;
+            super.generateBufferData(context, faceList);
+            if (isInit) color = _colour;
         }
 
         override protected function prepareForRender(context:Context3D):void {
             super.prepareForRender(context);
 
             clipSpaceMatrix.identity();
+            clipSpaceMatrix.appendTranslation(registrationOffset.x, registrationOffset.y, 0);
             clipSpaceMatrix.append(modelMatrix);
             clipSpaceMatrix.append(viewProjectionMatrix);
 
@@ -50,7 +62,7 @@ package de.nulldesign.nd2d.materials {
 
         override protected function initProgram(context:Context3D):void {
             if(!shaderData) {
-                shaderData = ShaderCache.getInstance().getShader(context, this, VERTEX_SHADER, FRAGMENT_SHADER, 6,0, 1000);// texture.textureOptions, nodeTinted ? 0 : 1000);
+                shaderData = ShaderCache.getInstance().getShader(context, this, VERTEX_SHADER, FRAGMENT_SHADER, 6, 0);
             }
         }
 
@@ -58,6 +70,7 @@ package de.nulldesign.nd2d.materials {
 
             if(!mVertexBuffer || mVertexBuffer.length == 0) return;
             const idx:uint = bufferIdx * shaderData.numFloatsPerVertex;
+            if (idx + 5 >= mVertexBuffer.length) return;
 
             mVertexBuffer[idx + 2] = r;
             mVertexBuffer[idx + 3] = g;
@@ -69,31 +82,49 @@ package de.nulldesign.nd2d.materials {
 
         /**
          * Update vertex positions in the mVertexBuffer
-         * @param v1
-         * @param v2
-         * @param v3
-         * @param v4
+         * @param v
          */
-        public function setVertexPositions(v1:Vector3D, v2:Vector3D, v3:Vector3D, v4:Vector3D):void {
+        public function setVertexPositions(v:Vector.<Vector3D>):void {
 
             if (!mVertexBuffer || mVertexBuffer.length == 0) return;
 
-            const idx	:uint = shaderData.numFloatsPerVertex;
-            const idx2	:uint = idx << 1;
+            const fpv:uint = shaderData.numFloatsPerVertex;
 
-            mVertexBuffer[0]	= v1.x;
-            mVertexBuffer[1]	= v1.y;
-
-            mVertexBuffer[idx]	= v2.x;
-            mVertexBuffer[uint(idx + 1)]	= v2.y;
-
-            mVertexBuffer[idx2]	= v3.x;
-            mVertexBuffer[uint(idx2 + 1)]	= v3.y;
-
-            mVertexBuffer[uint(idx2 + idx)]	= v4.x;
-            mVertexBuffer[uint(idx2 + idx + 1)]	= v4.y;
+            var i	:int = -1;
+            const n	:int = v.length;
+            while (++i < n) {
+                mVertexBuffer[i * fpv]	= v[i].x;
+                mVertexBuffer[i * fpv + 1]	= v[i].y;
+            }
 
             needUploadVertexBuffer = true;
+        }
+
+        /**
+         * set/get argb colour value
+         */
+        public function get color():uint { return _colour; }
+        public function set color(value:uint):void {
+            _colour = value;
+
+            const a	:Number = uint((value & 0xff000000) >>> 24) / 0xff;
+            const r	:Number = uint((value & 0xff0000) >>> 16) / 0xff;
+            const g	:Number = uint((value & 0xff00) >>> 8) / 0xff;
+            const b	:Number = uint(value & 0xff) / 0xff;
+
+            const n	:uint = indexCount;
+            var i	:int = -1;
+            while (++i < n) {
+                modifyColorInBuffer(i, r, g, b, a);
+            }
+        }
+
+        public function randomiseVertexColors():void {
+            const n	:uint = indexCount;
+            var i	:int = -1;
+            while (++i < n) {
+                modifyColorInBuffer(i, Math.random(), Math.random(), Math.random(), 1.0);
+            }
         }
     }
 }

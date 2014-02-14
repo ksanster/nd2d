@@ -108,7 +108,7 @@ package
 //			scenes.push(Font2DTest);
 //			scenes.push(Grid2DTest);
 //			scenes.push(SpriteTest);
-			scenes.push(SpriteAnimTest);
+//			scenes.push(SpriteAnimTest);
 //			scenes.push(StarFieldTest);
 //			scenes.push(ParticleSystemTest);
 //			scenes.push(BlurTest);
@@ -116,17 +116,17 @@ package
 //			scenes.push(CameraTest);
 //			scenes.push(ParticleExplorer);
 //			scenes.push(MaskTest);
-//			scenes.push(TextureAtlasTest);
-			scenes.push(BatchTest);
-//			scenes.push(TextureRendererTest);
+            scenes.push(QuadMaterialTest);
+            scenes.push(TextureAtlasTest);
+//			scenes.push(BatchTest);
+			scenes.push(TextureRendererTest);
 //			scenes.push(PostProcessingTest);
-			scenes.push(ColorTransformTest);
-			scenes.push(Sprite2DCloudParticles);
-			scenes.push(SpeedTest);
+//			scenes.push(ColorTransformTest);
+//			scenes.push(Sprite2DCloudParticles);
+//			scenes.push(SpeedTest);
 			scenes.push(TextureAndRotationOptionsTest);
-			scenes.push(Transform3DTest);
-			scenes.push(TextFieldTest);
-			scenes.push(QuadMaterialTest);
+            scenes.push(Transform3DTest);
+            scenes.push(TextFieldTest);
 			scenes.push(SpriteCloudVisibilityTest);
 			scenes.push(ParticleSystemExtTest); // example on how to extend ND2D and build your own objects
 

@@ -30,19 +30,19 @@
 
 package de.nulldesign.nd2d.geom {
 
-	import flash.geom.Vector3D;
+    import flash.geom.Vector3D;
 
-	public class Vertex extends Vector3D {
+    public class Vertex extends Vector3D {
 
         private static var UID_COUNT:uint = 0;
         public const uid:Number = ++UID_COUNT;
 
-		/**
-		 * the color must be in ARGB format.
-		 */
-		public var color:uint = 0xFFFFFFFF;
+        /**
+         * the color must be in ARGB format.
+         */
+        public var color:uint = 0xFFFFFFFF;
 
-		public var bufferIdx:int = -1;
+        public var bufferIdx:int = -1;
 
         public function Vertex(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0) {
             super(x, y, z, 1.0);
@@ -52,7 +52,7 @@ package de.nulldesign.nd2d.geom {
             return ((color >> 24) & 0xFF) / 0xFF;
         }
 
-		public function get r():Number {
+        public function get r():Number {
             return ((color >> 16) & 0xFF) / 0xFF;
         }
 
@@ -66,7 +66,7 @@ package de.nulldesign.nd2d.geom {
 
         override public function clone():Vector3D {
             var v:Vertex = new Vertex(x, y, z);
-			v.color = color;
+            v.color = color;
             return v;
         }
     }

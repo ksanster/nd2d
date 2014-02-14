@@ -30,15 +30,15 @@
 
 package de.nulldesign.nd2d.utils {
 
-	import de.nulldesign.nd2d.display.Node2D;
+    import de.nulldesign.nd2d.display.Node2D;
 
-	import flash.geom.Point;
-	import flash.geom.Vector3D;
+    import flash.geom.Point;
+    import flash.geom.Vector3D;
 
-	public class VectorUtil {
-		
-		public static const RAD_2_DEG:Number = 180 / Math.PI;
-		public static const DEG_2_RAD:Number = Math.PI / 180;
+    public class VectorUtil {
+
+        public static const RAD_2_DEG:Number = 180 / Math.PI;
+        public static const DEG_2_RAD:Number = Math.PI / 180;
 
         /**
          * Converts radians to degrees
@@ -67,19 +67,19 @@ package de.nulldesign.nd2d.utils {
         public static function rotationFromVector(x:Number, y:Number):Number {
             return Math.atan2(y, x) * RAD_2_DEG;
         }
-		
-		/**
-		 * Calculates the distance between two Node2D
-		 * @param n1 first Node2D
-		 * @param n2 second Node2D
-		 * @return distance between two Node2D
-		 */
+
+        /**
+         * Calculates the distance between two Node2D
+         * @param n1 first Node2D
+         * @param n2 second Node2D
+         * @return distance between two Node2D
+         */
         public static function distance(n1:Node2D, n2:Node2D):Number {
-			const p1:Vector3D = n1.position;
-			const p2:Vector3D = n2.position;
-			const dx:Number = p1.x - p2.x;
-			const dy:Number = p1.y - p2.y;
-			return Math.sqrt(dx * dx + dy * dy);
+            const p1:Vector3D = n1.position;
+            const p2:Vector3D = n2.position;
+            const dx:Number = p1.x - p2.x;
+            const dy:Number = p1.y - p2.y;
+            return Math.sqrt(dx * dx + dy * dy);
         }
     }
 }

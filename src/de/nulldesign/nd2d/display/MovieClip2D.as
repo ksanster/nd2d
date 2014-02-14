@@ -225,8 +225,6 @@ package de.nulldesign.nd2d.display
             }
         }
 
-
-
         public override function dispose():void
         {
             animationMap = null;

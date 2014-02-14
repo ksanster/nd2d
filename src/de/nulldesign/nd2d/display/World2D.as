@@ -351,7 +351,7 @@ package de.nulldesign.nd2d.display {
 
 			stage.removeEventListener(Event.RESIZE, resizeStage);
 
-			ShaderCache.getInstance().dispose();
+			ShaderCache.getInstance().handleDeviceLoss();
 
 			for(var i:int = 0; i < stage.stage3Ds.length; i++) {
 				stage.stage3Ds[i].removeEventListener(Event.CONTEXT3D_CREATE, context3DCreated);

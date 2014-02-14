@@ -30,9 +30,9 @@
 
 package de.nulldesign.nd2d.geom {
 
-	import flash.geom.Vector3D;
+    import flash.geom.Vector3D;
 
-	public class Face {
+    public class Face {
 
         public var idx:uint = 0;
 
@@ -74,7 +74,7 @@ package de.nulldesign.nd2d.geom {
 
         public function clone():Face {
             return new Face(v1.clone() as Vertex, v2.clone() as Vertex, v3.clone() as Vertex, uv1 ? uv1.clone() : null,
-                            uv2 ? uv2.clone() : null, uv3 ? uv3.clone() : null);
+                    uv2 ? uv2.clone() : null, uv3 ? uv3.clone() : null);
         }
 
         public function toString():String {
